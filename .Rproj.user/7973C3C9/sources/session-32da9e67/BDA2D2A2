@@ -3,7 +3,7 @@
     "path": "~/Desktop/bcb410/PharmacoExploreR/DESCRIPTION",
     "project_path": "DESCRIPTION",
     "type": "dcf",
-    "hash": "2888027488",
+    "hash": "3983753073",
     "contents": "",
     "dirty": false,
     "created": 1761676317290.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "10,10",
-        "scrollLine": "0"
+        "cursorPosition": "16,55",
+        "scrollLine": "1"
     },
     "folds": "",
-    "lastKnownWriteTime": 1761676426,
+    "lastKnownWriteTime": 1761765088,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1761676426151,
+    "last_content_update": 1761765088016,
     "read_only": false,
     "read_only_alternatives": []
 }

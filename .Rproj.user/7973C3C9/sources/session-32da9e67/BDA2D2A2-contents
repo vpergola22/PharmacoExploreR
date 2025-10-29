@@ -14,8 +14,9 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
+Depends: # TODO should I be using Depends or Imports???
+    PharmacoGx
 Imports:
-    PharmacoGx,
     ggplot2,
     limma,
     clusterProfiler,
