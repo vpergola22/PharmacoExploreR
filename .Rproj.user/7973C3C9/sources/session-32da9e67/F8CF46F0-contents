@@ -31,26 +31,24 @@ loadPSet <- function(psetName){
   }
   
   # check if psetName is a valid name for an existing PSet
-  availablePSets <- PharmacoGx::availablePSets() # TODO turn into df or something and check if psetName in "PSet Name" column
+  availablePSets <- PharmacoGx::availablePSets()
   
   
   # handle error for wrong PSet name
-  valid_names <- available_psets[["PSet Name"]]
+  valid_names <- availablePSets[["PSet Name"]]
   if (!(psetName %in% valid_names)) {
-    stop(paste0("'", psetName, "' is not a valid PSet name. Run PharmacoGx::availablePsets() ",
-                "to view valid dataset names."))
+    message(psetName, "' is not a valid PSet name.\n")
+    message("Here are the available PharmacoSets from PharmacoGx:\n")
+    print(valid_names)
+    stop("\nPlease choose one of the above dataset names.")
   }
   
   
-  # Check if PSet is already downloaded TODO
-  # May not be needed? Check for PharmacoGX function which resolves this
-  
-  
-  # Download requested PSet
+  # download requested PSet
   message("Downloading PharmacoSet: ", psetName, " ...")
   pset <- PharmacoGx::downloadPSet(psetName)
   
-  # Validate download was successful
+  # validate download was successful
   if (!inherits(pset, "PharmacoSet")) {
     stop("The downloaded object is not a valid PharmacoSet.")
   }
@@ -64,7 +62,3 @@ loadPSet <- function(psetName){
   return(pset)
   
 }
-
-
-# Helper functions ?? TODO
-# may not need any
