@@ -1,19 +1,161 @@
 ---
-title: "PharmaExploreR_tutorial"
+title: "PharmaExploreR dataset workflow tutorial"
+author: "Victoria Pergola"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{PharmaExploreR_tutorial}
+  %\VignetteIndexEntry{PharmaExploreR dataset workflow tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(PharmacoGx)
 ```
 
-```{r setup}
-library(PharmacoExploreR)
+
+
+
+```{r}
+# Load NCI60 dataset
+pset <- loadPSet("NCI60_2021")
+```
+
+
+
+
+```{r}
+# Inspect the PSet to understand what is available
+slotNames(pset)
+
+# Look at the names of molecular profiles
+names(pset@molecularProfiles)
+
+# Examine the treatment response structure
+names(pset@treatmentResponse)
+
+# See the type of each component without printing all the data
+lapply(pset@treatmentResponse, function(x) class(x))
+
+# Example: check the first few entries of raw sensitivity data
+head(pset@treatmentResponse$raw[, , "Viability"], 3)
+
+# Example: get available molecular data types
+names(pset@molecularProfiles)
+
+# Example: get available sensitivity measures
+names(pset@treatmentResponse$profiles)
+
+```
+
+# List available drugs and cell lines
+
+drugNames(pset)
+cellNames(pset)
+
+# Summarize molecular profiles
+
+expr_mat <- summarizeMolecularProfiles(pset, mDataType = "rna", summary.stat = "mean")
+head(expr_mat)
+
+# Summarize drug sensitivity (AAC)
+
+sens <- summarizeSensitivityProfiles(pset, sensitivity.measure = "aac_recomputed")
+head(sens)
+
+
+```{r}
+drug <- drugNames(pset)[1]
+res <- correlateExpressionAUC(pset, mDataType = "rna", sensitivity.measure = "aac_recomputed", drug = drug)
+
+head(res)
+```
+
+
+```{r}
+gene_of_interest <- res$gene[1]
+drug_of_interest <- drugNames(pset)[1]
+
+scatter_plot <- plotExprAUC(
+  pset = pset,
+  corResults = res,
+  gene = gene_of_interest,
+  mDataType = "rna",
+  sensitivity.measure = "aac_recomputed",
+  drug = drug_of_interest,
+  method = "pearson"
+)
+
+print(scatter_plot)
+
+
+```
+
+
+
+```{r}
+# Volcano plot using the results from correlateExpressionAUC
+volcano_plot <- volcanoAUC(
+  corResults = res,
+  corThreshold = 0.3,
+  pvalThreshold = 0.05
+)
+
+print(volcano_plot)
+
+```
+
+
+
+```{r}
+# Using median split
+response_groups <- defineResponseGroups(pset, drug_of_interest, sensitivity.measure = "aac_recomputed", method = "median")
+table(response_groups)
+
+# Using quantiles (bottom 25% sensitive, top 25% resistant)
+response_groups_q <- defineResponseGroups(pset, drug_of_interest, sensitivity.measure = "aac_recomputed", method = "quantile")
+table(response_groups_q)
+
+# Using manual threshold
+response_groups_manual <- defineResponseGroups(pset, drug_of_interest, sensitivity.measure = "aac_recomputed", method = "manual", threshold = 0.6)
+table(response_groups_manual)
+
+```
+
+
+```{r}
+# Define groups
+response_groups <- defineResponseGroups(pset, drug_of_interest, sensitivity.measure = "aac_recomputed", method = "median")
+
+# Run differential expression
+diff_expr_res <- runDiffExpr(pset, groupLabels = response_groups, mDataType = "rna", method = "t.test")
+
+# Inspect top genes
+head(diff_expr_res[order(diff_expr_res$adj_pval), ])
+
+```
+
+
+```{r}
+# Assume response_groups was created with defineResponseGroups()
+
+# Boxplot
+p1 <- plotGeneBoxplot(pset, gene_of_interest, response_groups, mDataType = "rna", plotType = "boxplot")
+print(p1)
+
+# Violin plot
+p2 <- plotGeneBoxplot(pset, gene_of_interest, response_groups, mDataType = "rna", plotType = "violin")
+print(p2)
+
+```
+
+
+```{r}
+# Pick 3 valid cell lines from the available ones
+validCellLines <- rownames(pset@treatmentResponse$raw[, , "Viability"])
+cellLines <- validCellLines[1:3]
+
+# Plot dose-response curves
+plotDoseResponse(pset, cell.lines = cellLines)
 ```
