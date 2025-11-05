@@ -67,7 +67,7 @@ The NCI60 dataset contains gene expression and drug sensitivity data for 60
 cancer cell lines tested against hundreds of compounds. This will be stored in
 the pset variable for later use.
 
-```{r}
+```{r, eval=FALSE}
 # Load NCI60 dataset
 pset <- loadPSet("NCI60_2021")
 ```
