@@ -14,8 +14,58 @@ knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(PharmacoGx)
 ```
 
+## Introduction
+
+### What is PharmacoExploreR?
+
+PharmacoExploreR is an R package that is designed to simply the exploratory 
+analysis of pharmacogenomic data. Pharmacogenomics combines molecular profiling 
+data with drug response measurements with the goal of identifying biomarkers of 
+drug sensitivity. Building off of the PharmacoGx package, this package aims to
+make working with **PharmacoSet** objects (standardized objects for storing 
+pharmacogenomic data) easier by allowing users to extract meaningful insights
+and create figures.
+
+PharmacoExploreR provides:
+
+- **User-friendly functions** for common analytical workflows
+- **Correlation analysis** between gene expression and drug response
+- **Sample classification** into sensitive and resistant groups
+- **High-quality visualizations** including volcano plots, scatterplots, 
+boxplots, and dose-response curves
+- **Streamlined workflows** for hypothesis generation
 
 
+### What are PharmacoSets?
+
+A **PharmacoSet** (PSet) is a standardized R object created by the PharmacoGx 
+package that contains:
+
+- **Molecular profiling data**: Gene expression, mutations, copy number 
+variations
+- **Drug sensitivity data**: Measurements like Area Under the Curve (AUC) or 
+IC50 values
+- **Sample metadata**: Information about cell lines or patient samples
+- **Drug metadata**: Information about therapeutic compounds tested
+
+
+### Key Terminology:
+
+- **AUC (Area Under the Curve)**: A measure of drug sensitivity. Lower AUC 
+values indicate greater sensitivity to the drug.
+- **AAC (Area Above the Curve)**: The inverse of AUC. Higher AAC values indicate 
+greater sensitivity.
+- **IC50**: The drug concentration required to inhibit cell growth by 50%.
+- **Correlation Analysis**: Statistical method to identify genes whose 
+expression levels are associated with drug response.
+
+
+
+## 1: Loading a PharmacoSet 
+First, we load a publicly available pharmacogenomic dataset from PharmacoGx. 
+The NCI60 dataset contains gene expression and drug sensitivity data for 60 
+cancer cell lines tested against hundreds of compounds. This will be stored in
+the pset variable for later use.
 
 ```{r}
 # Load NCI60 dataset
@@ -23,6 +73,13 @@ pset <- loadPSet("NCI60_2021")
 ```
 
 
+
+## 2. Inspecting the PharmacoSet Structure
+
+- `@molecularProfiles`: Gene expression and other molecular data
+- `@treatmentResponse`: Drug sensitivity measurements
+- `@sample`: Cell line metadata
+- `@treatment`: Drug metadata
 
 
 ```{r}
@@ -49,33 +106,56 @@ names(pset@treatmentResponse$profiles)
 
 ```
 
+Here we observe the raw data containing dose-response measurements.
+Each row represents a cell line while each column is a drug and values represent
+the cell viability at a particular drug concentration.
+
+```{r}
 # List available drugs and cell lines
+cat("Number of drugs:", length(drugNames(pset)), "\n")
+cat("Number of cell lines:", length(cellNames(pset)), "\n")
+cat("\nFirst 10 drugs:\n")
+head(drugNames(pset), 10)
+cat("\nFirst 10 cell lines:\n")
+head(cellNames(pset), 10)
+```
 
-drugNames(pset)
-cellNames(pset)
+These commands allow us to identify which drugs and cell lines are available in
+the dataset, helping us to choose appropriate drugs for our analysis.
 
-# Summarize molecular profiles
 
-expr_mat <- summarizeMolecularProfiles(pset, mDataType = "rna", summary.stat = "mean")
-head(expr_mat)
+## 3: Correlating Gene Expression with Drug Response
 
-# Summarize drug sensitivity (AAC)
-
-sens <- summarizeSensitivityProfiles(pset, sensitivity.measure = "aac_recomputed")
-head(sens)
+Now we can identify specific genes whose expresion levels are associated with
+drug sensitivity using the **correlateExpressionAUC()** function. This function
+extracts gene expression data for all genes as well as drug sensitivity data 
+(AAC) for the specified drug. Then it is able to compute Pearson correlation
+between each gene's expression and drug sensitivity across all cell lines, and 
+calculate p-values to assess statistical significance. These p-values are also
+adjusted for multiple testing using FDR (False Discovery Rate).
 
 
 ```{r}
-drug <- drugNames(pset)[1]
+drug <- "Erlotinib"
 res <- correlateExpressionAUC(pset, mDataType = "rna", sensitivity.measure = "aac_recomputed", drug = drug)
 
+# View top results
 head(res)
 ```
 
+## 4: Vizualizing Gene-Drug Relationships with Scatterplots
+
+Now let's visualize the relationship between a specific gene's expression and
+drug response using **plotExprAUC()**. This function extracts the expression 
+values for the specified gene across all cell lines and the AAC values for the 
+specified drug across the same cell lines. It then creates a scatterplot showing
+the relationship with a regression line to visualize the trend, and displays 
+correlation coefficient and p-value on the plot.
 
 ```{r}
-gene_of_interest <- res$gene[1]
-drug_of_interest <- drugNames(pset)[1]
+# Select the most highly correlated gene
+gene_of_interest <- res$gene[which.max(abs(res$cor))]
+drug_of_interest <- "Erlotinib"
 
 scatter_plot <- plotExprAUC(
   pset = pset,
@@ -92,6 +172,11 @@ print(scatter_plot)
 
 ```
 
+## 5: Creating a Volcano Plot for Genome-Wide Overview
+A volcano plot provides us with an overview of all gene-drug correlations at the
+same time. We will use **volcanoAUC** to plot the correlation strength (x-axis)
+against the statistical significance (y-axis), highlighting genes that pass both
+correlation and significance thresholds.
 
 
 ```{r}
@@ -106,6 +191,12 @@ print(volcano_plot)
 
 ```
 
+## 6: Classifying Samples into Response Groups
+
+For our analysis we may also want to classify cells into "sensitive" and 
+"resistant" groups, which we accomplish using **defineResponseGroups()**. This 
+function allows us to use multiple methods (demonstrated below) to split cell
+lines into the appropriate category.
 
 
 ```{r}
@@ -123,6 +214,10 @@ table(response_groups_manual)
 
 ```
 
+## 7: Differential Expression Analysis
+Now we can identify any genes that are differentially expressed between
+sensitive and resistant cell lines using the **runDiffExpr()** function.
+
 
 ```{r}
 # Define groups
@@ -135,6 +230,13 @@ diff_expr_res <- runDiffExpr(pset, groupLabels = response_groups, mDataType = "r
 head(diff_expr_res[order(diff_expr_res$adj_pval), ])
 
 ```
+
+
+## 8: Visualizing Gene Expression by Response Group
+This package has multiple useful functions for visualizing how a specific gene's
+expression differs between sensitive and resistant groups. Here we use 
+**plotGeneBoxplot()** to create boxplots as well as violin plots to observe
+these relationships.
 
 
 ```{r}
@@ -151,6 +253,15 @@ print(p2)
 ```
 
 
+## 9: Plotting Dose-Response Curves
+
+Finally, we want to visualize the actual dose-response relationships for
+specific cell lines using **plotDoseResponse()**. This function extracts raw 
+dose-response data for the specified cell lines and drug, plotting cell 
+viability (y-axis) against drug concentration (x-axis). Each curve represents 
+one cell line, showing how cell viability decreases as drug 
+concentration increases.
+
 ```{r}
 # Pick 3 valid cell lines from the available ones
 validCellLines <- rownames(pset@treatmentResponse$raw[, , "Viability"])
@@ -159,3 +270,16 @@ cellLines <- validCellLines[1:3]
 # Plot dose-response curves
 plotDoseResponse(pset, cell.lines = cellLines)
 ```
+
+
+## Session Information
+```{r}
+sessionInfo()
+```
+
+
+## References
+
+Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C., Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H., Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016). PharmacoGx: an R package for analysis of large pharmacogenomic datasets. *Bioinformatics*, 32(8), 1244-1246.
+
+Geeleher, P., Cox, N., & Huang, R. S. (2014). pRRophetic: an R package for prediction of clinical chemotherapeutic response from tumor gene expression levels. *PloS one*, 9(9), e107468.

@@ -3,7 +3,7 @@
     "path": "~/Desktop/bcb410/PharmacoExploreR/vignettes/PharmaExploreR_tutorial.Rmd",
     "project_path": "vignettes/PharmaExploreR_tutorial.Rmd",
     "type": "r_markdown",
-    "hash": "3888626997",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1761675945382.0,
@@ -16,11 +16,11 @@
         "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1762302291,
+    "lastKnownWriteTime": 1762304738,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1762302297622,
+    "last_content_update": 1762304738,
     "read_only": false,
     "read_only_alternatives": []
 }
