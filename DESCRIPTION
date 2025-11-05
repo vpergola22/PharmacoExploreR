@@ -20,7 +20,8 @@ Imports:
     SummarizedExperiment,
     ggplot2,
     stats,
-    utils
+    utils,
+    reshape2
 Suggests:
     testthat (>= 3.0.0),
     knitr,
