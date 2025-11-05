@@ -1,20 +1,81 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
+#' Define Response Groups Based on Drug Sensitivity
+#'
+#' Classifies samples (cell lines) into "sensitive" and "resistant" groups
+#' based on their drug sensitivity values. Multiple classification methods
+#' are supported: median split, quantile-based, or manual threshold.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package.
+#' @param drug A character string specifying the drug name for classification.
+#' @param sensitivity.measure A character string specifying the sensitivity
+#'   metric. Default is "auc_recomputed". For AUC/AAC, lower values typically
+#'   indicate greater sensitivity.
+#' @param method A character string specifying the classification method.
+#'   Options are:
+#'   \itemize{
+#'     \item "median" - Split at median (50th percentile)
+#'     \item "quantile" - Use top and bottom quantiles (default: 25th and 75th)
+#'     \item "manual" - Use a user-specified threshold
+#'   }
+#' @param threshold A numeric value specifying the manual threshold (only used
+#'   when method = "manual"). Samples with values <= threshold are classified
+#'   as "sensitive".
+#' @param quantiles A numeric vector of length 2 specifying the lower and upper
+#'   quantiles for classification (only used when method = "quantile").
+#'   Default is c(0.25, 0.75). Samples in the middle are classified as NA.
+#'
+#' @return A named factor vector with levels "sensitive" and "resistant",
+#'   where names correspond to sample identifiers. When method = "quantile",
+#'   some samples may be NA (middle quantile).
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load data
+#' pset <- downloadPSet("NCI60_2021")
+#' drug_name <- drugNames(pset)[1]
+#' 
+#' # Method 1: Median split (most common)
+#' groups_median <- defineResponseGroups(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "median"
+#' )
+#' table(groups_median)
+#' 
+#' # Method 2: Quantile-based (more stringent)
+#' groups_quantile <- defineResponseGroups(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "quantile",
+#'   quantiles = c(0.25, 0.75)
+#' )
+#' table(groups_quantile, useNA = "ifany")
+#' 
+#' # Method 3: Manual threshold
+#' groups_manual <- defineResponseGroups(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "manual",
+#'   threshold = 0.6
+#' )
+#' table(groups_manual)
+#' }
+#'
+#' @references
+#' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+#' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+#' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+#' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+#' \emph{Bioinformatics}, 32(8), 1244-1246.
+#' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#'
+#' @export
+#' @importFrom PharmacoGx summarizeSensitivityProfiles
+#' @importFrom stats median quantile
 defineResponseGroups <- function(pset, drug, 
                                  sensitivity.measure = "auc_recomputed", 
                                  method = c("median", "quantile", "manual"),

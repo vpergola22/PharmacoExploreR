@@ -1,20 +1,72 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
+#' Correlate Gene Expression with Drug Response
+#'
+#' Computes correlations between gene expression levels and drug sensitivity
+#' metrics (e.g., AUC, AAC, IC50) for a specified drug across samples in a
+#' PharmacoSet object. For each gene, the function calculates the correlation
+#' coefficient, p-value, and FDR-adjusted p-value to identify genes whose
+#' expression is associated with drug response.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package containing
+#'   molecular profiling and drug sensitivity data.
+#' @param drug A character string specifying the drug name to analyze. Must
+#'   match a drug name in the sensitivity data. Use \code{drugNames(pset)}
+#'   to see available options.
+#' @param mDataType A character string specifying the molecular data type.
+#'   Default is "rna" for gene expression. Other options depend on the
+#'   PharmacoSet (e.g., "mutation", "cnv").
+#' @param sensitivity.measure A character string specifying the sensitivity
+#'   metric to use. Default is "auc_recomputed". Common options include
+#'   "aac_recomputed", "ic50_published", "auc_published".
+#' @param method A character string specifying the correlation method.
+#'   Options are "pearson" (default), "spearman", or "kendall".
+#'
+#' @return A data frame with the following columns:
+#' \itemize{
+#'   \item gene - Character vector of gene names
+#'   \item cor - Numeric vector of correlation coefficients
+#'   \item pval - Numeric vector of p-values from correlation tests
+#'   \item adj_pval - Numeric vector of FDR-adjusted p-values
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load a PharmacoSet
+#' pset <- downloadPSet("NCI60_2021")
+#' 
+#' # View available drugs
+#' head(drugNames(pset))
+#' 
+#' # Correlate gene expression with drug response
+#' results <- correlateExpressionAUC(
+#'   pset = pset,
+#'   drug = "5-Fluorouracil",
+#'   mDataType = "rna",
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "pearson"
+#' )
+#' 
+#' # View top correlated genes
+#' head(results[order(abs(results$cor), decreasing = TRUE), ])
+#' 
+#' # Filter for significant genes
+#' sig_genes <- results[results$adj_pval < 0.05, ]
+#' }
+#'
+#' @references
+#' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+#' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+#' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+#' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+#' \emph{Bioinformatics}, 32(8), 1244-1246.
+#' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#'
+#' @export
+#' @importFrom PharmacoGx summarizeMolecularProfiles summarizeSensitivityProfiles
+#' @importFrom SummarizedExperiment assay
+#' @importFrom stats cor.test p.adjust complete.cases var
+#' @importFrom utils head
 correlateExpressionAUC <- function(pset, drug, mDataType = "rna", 
                                    sensitivity.measure = "auc_recomputed", 
                                    method = "pearson"){
@@ -97,7 +149,22 @@ correlateExpressionAUC <- function(pset, drug, mDataType = "rna",
 
 
 
-# Helper function TODO documentation
+#' Helper Function for Safe Correlation Computation
+#'
+#' Internal function that safely computes correlation between two numeric
+#' vectors, handling missing values and edge cases. Not intended for direct
+#' user access.
+#'
+#' @param x A numeric vector.
+#' @param y A numeric vector of the same length as x.
+#' @param method Correlation method: "pearson", "spearman", or "kendall".
+#'
+#' @return A named numeric vector with two elements: "cor" (correlation
+#'   coefficient) and "pval" (p-value). Returns NA for both if computation
+#'   fails.
+#'
+#' @keywords internal
+#' @noRd
 .safeCor <- function(x, y, method = "pearson") {
   # Ensure both numeric
   if (!is.numeric(x) || !is.numeric(y)) {

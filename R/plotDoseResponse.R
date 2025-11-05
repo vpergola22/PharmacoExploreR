@@ -1,22 +1,71 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
-# @import ggplot2
-# @import reshape2
+#' Plot Dose-Response Curves for Cell Lines
+#'
+#' Generates dose-response curves showing cell viability (or other response
+#' measure) as a function of drug concentration for specified cell lines.
+#' Each curve represents one cell line, allowing visual comparison of drug
+#' sensitivity across samples.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package containing
+#'   raw dose-response data.
+#' @param cell.lines A character vector specifying which cell lines to plot.
+#'   If NULL, plots all available cell lines (not recommended for large
+#'   datasets). Use \code{cellNames(pset)} to see available options.
+#' @param sensitivity.measure A character string specifying which response
+#'   measure to plot. Default is "Viability". Other options depend on the
+#'   PSet and may include measures like "Dose".
+#'
+#' @return A ggplot2 object displaying dose-response curves with log-scaled
+#'   x-axis (dose) and smoothed trend lines for each cell line.
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load data
+#' pset <- downloadPSet("NCI60_2021")
+#' 
+#' # View available cell lines
+#' head(cellNames(pset))
+#' 
+#' # Select 3 cell lines for comparison
+#' selected_lines <- cellNames(pset)[1:3]
+#' 
+#' # Plot dose-response curves
+#' plot <- plotDoseResponse(
+#'   pset = pset,
+#'   cell.lines = selected_lines,
+#'   sensitivity.measure = "Viability"
+#' )
+#' print(plot)
+#' 
+#' # Compare sensitive vs resistant cell lines
+#' drug_name <- drugNames(pset)[1]
+#' groups <- defineResponseGroups(pset, drug_name, method = "quantile")
+#' 
+#' # Get 2 most sensitive and 2 most resistant
+#' sens_lines <- names(groups[groups == "sensitive"])[1:2]
+#' res_lines <- names(groups[groups == "resistant"])[1:2]
+#' 
+#' plot_compare <- plotDoseResponse(
+#'   pset = pset,
+#'   cell.lines = c(sens_lines, res_lines)
+#' )
+#' }
+#'
+#' @references
+#' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+#' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+#' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+#' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+#' \emph{Bioinformatics}, 32(8), 1244-1246.
+#' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#'
+#' Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
+#' Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
+#'
+#' @export
+#' @import ggplot2
+#' @importFrom reshape2 melt
 plotDoseResponse <- function(pset, cell.lines = NULL, sensitivity.measure = "Viability") {
   
   # check valid sensitivity.measure

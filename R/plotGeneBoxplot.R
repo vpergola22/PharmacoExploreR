@@ -1,20 +1,79 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
+#' Perform Differential Expression Analysis Between Response Groups
+#'
+#' Identifies genes that are differentially expressed between drug-sensitive
+#' and drug-resistant samples. Supports t-test or limma-based analysis methods.
+#' Returns statistical measures including log fold change and adjusted p-values
+#' for each gene.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package.
+#' @param groupLabels A named factor vector with levels "sensitive" and
+#'   "resistant", typically output from \code{defineResponseGroups()}.
+#'   Names must correspond to sample identifiers in the PSet.
+#' @param mDataType A character string specifying the molecular data type.
+#'   Default is "rna" for gene expression.
+#' @param method A character string specifying the statistical method.
+#'   Options are:
+#'   \itemize{
+#'     \item "t.test" - Welch's t-test for each gene (default)
+#'     \item "limma" - Linear modeling with empirical Bayes (requires limma package)
+#'   }
+#'
+#' @return A data frame with the following columns:
+#' \itemize{
+#'   \item gene - Character vector of gene names
+#'   \item logFC - Numeric vector of log fold changes (sensitive - resistant)
+#'   \item pval - Numeric vector of p-values
+#'   \item adj_pval - Numeric vector of FDR-adjusted p-values
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load data
+#' pset <- downloadPSet("NCI60_2021")
+#' drug_name <- drugNames(pset)[1]
+#' 
+#' # Define response groups
+#' groups <- defineResponseGroups(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "median"
+#' )
+#' 
+#' # Run differential expression using t-test
+#' diff_expr <- runDiffExpr(
+#'   pset = pset,
+#'   groupLabels = groups,
+#'   mDataType = "rna",
+#'   method = "t.test"
+#' )
+#' 
+#' # View top differentially expressed genes
+#' head(diff_expr[order(diff_expr$adj_pval), ])
+#' 
+#' # Filter for significant genes
+#' sig_genes <- diff_expr[diff_expr$adj_pval < 0.05 & abs(diff_expr$logFC) > 1, ]
+#' 
+#' # Using limma (if installed)
+#' diff_expr_limma <- runDiffExpr(
+#'   pset = pset,
+#'   groupLabels = groups,
+#'   method = "limma"
+#' )
+#' }
+#'
+#' @references
+#' Ritchie, M. E., Phipson, B., Wu, D., Hu, Y., Law, C. W., Shi, W., &
+#' Smyth, G. K. (2015). limma powers differential expression analyses for
+#' RNA-sequencing and microarray studies. \emph{Nucleic Acids Research},
+#' 43(7), e47. \href{https://doi.org/10.1093/nar/gkv007}{Link}.
+#'
+#' @export
+#' @importFrom PharmacoGx summarizeMolecularProfiles
+#' @importFrom SummarizedExperiment assay
+#' @importFrom stats t.test p.adjust model.matrix
 plotGeneBoxplot <- function(pset, gene, groupLabels, mDataType = "rna",
                             plotType = c("boxplot", "violin"), 
                             showPoints = TRUE, pointColor = "#0072B2") {

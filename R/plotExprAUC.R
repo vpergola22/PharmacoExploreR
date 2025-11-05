@@ -1,21 +1,60 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
-# @import ggplot2
+#' Create Scatterplot of Gene Expression vs Drug Response
+#'
+#' Generates a scatterplot showing the relationship between a specific gene's
+#' expression and drug sensitivity (AUC) across samples. The plot includes a
+#' linear regression line and displays the correlation coefficient and
+#' statistical significance.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package.
+#' @param corResults A data frame output from \code{correlateExpressionAUC()},
+#'   containing correlation results for genes.
+#' @param gene A character string specifying the gene name to plot.
+#' @param drug A character string specifying the drug name to plot.
+#' @param method A character string specifying the correlation method used.
+#'   Options are "pearson" (default), "spearman", or "kendall".
+#' @param mDataType A character string specifying the molecular data type.
+#'   Default is "rna".
+#' @param sensitivity.measure A character string specifying the sensitivity
+#'   metric. Default is "auc_recomputed".
+#'
+#' @return A ggplot2 object displaying the scatterplot with regression line.
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load data and compute correlations
+#' pset <- downloadPSet("NCI60_2021")
+#' drug_name <- drugNames(pset)[1]
+#' 
+#' results <- correlateExpressionAUC(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed"
+#' )
+#' 
+#' # Plot top correlated gene
+#' top_gene <- results$gene[which.max(abs(results$cor))]
+#' 
+#' plot <- plotExprAUC(
+#'   pset = pset,
+#'   corResults = results,
+#'   gene = top_gene,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed"
+#' )
+#' 
+#' print(plot)
+#' }
+#'
+#' @references
+#' Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
+#' Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
+#'
+#' @export
+#' @import ggplot2
+#' @importFrom PharmacoGx summarizeMolecularProfiles summarizeSensitivityProfiles
+#' @importFrom SummarizedExperiment assay
 plotExprAUC <- function(pset, corResults, gene, drug, method = "pearson", mDataType = "rna", sensitivity.measure = "auc_recomputed") {
   
   if (!inherits(pset, "PharmacoSet")) {

@@ -1,20 +1,75 @@
-# TODO Documentation
-#
-#
-#
-# @param 
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-#
-#
-# @export
-# @import PharmacoGx
+#' Plot Gene Expression by Response Group
+#'
+#' Creates a boxplot or violin plot showing the distribution of a specific
+#' gene's expression across drug-sensitive and drug-resistant sample groups.
+#' Useful for visualizing differential expression results and validating
+#' biomarker candidates.
+#'
+#' @param pset A PharmacoSet object from the PharmacoGx package.
+#' @param gene A character string specifying the gene name to plot.
+#' @param groupLabels A named factor vector with levels "sensitive" and
+#'   "resistant", typically output from \code{defineResponseGroups()}.
+#' @param mDataType A character string specifying the molecular data type.
+#'   Default is "rna" for gene expression.
+#' @param plotType A character string specifying the plot type. Options are
+#'   "boxplot" (default) or "violin".
+#' @param showPoints A logical indicating whether to overlay individual
+#'   data points. Default is TRUE.
+#' @param pointColor A character string specifying the color for individual
+#'   points. Default is "#0072B2".
+#'
+#' @return A ggplot2 object displaying the gene expression distribution
+#'   by response group.
+#'
+#' @examples
+#' \dontrun{
+#' library(PharmacoGx)
+#' 
+#' # Load data
+#' pset <- downloadPSet("NCI60_2021")
+#' drug_name <- drugNames(pset)[1]
+#' 
+#' # Define response groups
+#' groups <- defineResponseGroups(
+#'   pset = pset,
+#'   drug = drug_name,
+#'   sensitivity.measure = "aac_recomputed",
+#'   method = "median"
+#' )
+#' 
+#' # Run differential expression
+#' diff_expr <- runDiffExpr(pset, groups, method = "t.test")
+#' 
+#' # Plot top gene with boxplot
+#' top_gene <- diff_expr$gene[which.min(diff_expr$adj_pval)]
+#' 
+#' p1 <- plotGeneBoxplot(
+#'   pset = pset,
+#'   gene = top_gene,
+#'   groupLabels = groups,
+#'   plotType = "boxplot"
+#' )
+#' print(p1)
+#' 
+#' # Plot with violin plot
+#' p2 <- plotGeneBoxplot(
+#'   pset = pset,
+#'   gene = top_gene,
+#'   groupLabels = groups,
+#'   plotType = "violin",
+#'   showPoints = TRUE
+#' )
+#' print(p2)
+#' }
+#'
+#' @references
+#' Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
+#' Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
+#'
+#' @export
+#' @import ggplot2
+#' @importFrom PharmacoGx summarizeMolecularProfiles
+#' @importFrom SummarizedExperiment assay
 runDiffExpr <- function(pset, groupLabels, mDataType = "rna", method = c("t.test", "limma")) {
   
   # check inputs

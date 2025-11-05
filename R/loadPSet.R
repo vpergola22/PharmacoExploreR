@@ -1,29 +1,40 @@
-# Load a PharmacoSet object from PharmacoGx
-#
-# @description TODO
-#
-#
-# @param psetName the name of a PSet from PharmacoDB indicating the PSet to be 
-#   loaded. This should match a value in the "PSet Name" column of the data
-#   frame produced by availablePSets().
-#
-# @return TODO
-# 
-#
-# @examples TODO
-#
-#
-# @references
-# Smirnov, Petr, et al. PharmacoDB: An Integrative Database for Mining in Vitro 
-# Anticancer Drug Screening Studies. Vol. 46, no. D1, 9 Oct. 2017, pp. 
-# D994–D1002, https://doi.org/10.1093/nar/gkx911.
-# ---. “PharmacoGx: An R Package for Analysis of Large Pharmacogenomic 
-# Datasets.” Bioinformatics, vol. 32, no. 8, 9 Dec. 2015, pp. 1244–1246, 
-# https://doi.org/10.1093/bioinformatics/btv723.
-# TODO check if this is the correct citation format
-#
-# @export
-# @import PharmacoGx
+#' Load a PharmacoSet from PharmacoGx
+#'
+#' Downloads and loads a PharmacoSet object from the PharmacoGx repository.
+#' PharmacoSets are standardized data structures containing pharmacogenomic
+#' data including molecular profiles (e.g., gene expression) and drug
+#' sensitivity measurements for cancer cell lines or patient samples.
+#'
+#' @param psetName A character string specifying the name of the PharmacoSet
+#'   to download. Must match an available PSet name from PharmacoGx. Use
+#'   \code{PharmacoGx::availablePSets()} to see all options.
+#'
+#' @return A PharmacoSet object containing molecular profiling data, drug
+#'   sensitivity measurements, and associated metadata.
+#'
+#' @examples
+#' \dontrun{
+#' # Load the NCI60 dataset
+#' pset <- loadPSet("NCI60_2021")
+#' 
+#' # View available datasets first
+#' library(PharmacoGx)
+#' availablePSets()
+#' 
+#' # Load GDSC dataset
+#' gdsc <- loadPSet("GDSC_2020(v2-8.2)")
+#' }
+#'
+#' @references
+#' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+#' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+#' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+#' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+#' \emph{Bioinformatics}, 32(8), 1244-1246.
+#' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#'
+#' @export
+#' @importFrom PharmacoGx availablePSets downloadPSet
 loadPSet <- function(psetName){
   # ensure PharmacoGx is available
   if (!requireNamespace("PharmacoGx", quietly = TRUE)) {
