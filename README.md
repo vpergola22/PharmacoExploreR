@@ -68,7 +68,7 @@ PharmacoExploreR contains 8 main functions:
 8.  **plotDoseResponse()** - Plot fitted dose-response curves for cell
     lines
 
-![](./inst/extdata/PharmacoExploreR_Workflow.png)
+![](./vignettes/PharmacoExploreR_Workflow.png)
 
 Refer to package vignettes for detailed tutorials and examples.
 
