@@ -10,7 +10,18 @@ vignette: >
 
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(eval = FALSE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  eval = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  error = FALSE,
+  fig.width = 7,
+  fig.height = 5
+)
+
+library(PharmacoExploreR)
+library(PharmacoGx)
 ```
 
 ## Introduction
@@ -59,18 +70,38 @@ greater sensitivity.
 expression levels are associated with drug response.
 
 
-
 ## 1: Loading a PharmacoSet 
-First, we load a publicly available pharmacogenomic dataset from PharmacoGx. 
-The NCI60 dataset contains gene expression and drug sensitivity data for 60 
-cancer cell lines tested against hundreds of compounds. This will be stored in
-the pset variable for later use.
 
-```{r, eval=FALSE}
-# Load NCI60 dataset
-pset <- loadPSet("NCI60_2021")
+### Option 1: Using the Mini Dataset (Recommended for Tutorial)
+
+For this tutorial, we will use a smaller subset of the NCI60 dataset that 
+includes 150 cell lines and 10 drugs. This mini dataset 
+allows for faster computation and is ideal for learning the package workflow.
+
+```{r load mini}
+# Load the mini NCI60 dataset included with the tutorial
+pset <- readRDS(system.file("data", "nci60_mini.rds", package = "PharmacoExploreR"))
 ```
 
+### Option 2: Downloading Full Datasets from PharmacoGx
+
+For full-scale analyses, you can download complete PharmacoSets directly from 
+PharmacoGx. These datasets contain hundreds of cell lines and compounds but 
+require more time to download and process.
+
+```{r load full, eval=FALSE}
+# Load full NCI60 dataset from PharmacoGx
+# Note: This is a large file (~314 MB) and may take several minutes to download
+library(PharmacoGx)
+pset <- downloadPSet("NCI60_2021")
+
+# Alternative: Load other available datasets
+# pset <- downloadPSet("GDSC_2020(v1-8.2)")
+# pset <- downloadPSet("CTRPv2_2015")
+
+# View all available PharmacoSets
+availablePSets()
+```
 
 
 ## 2. Inspecting the PharmacoSet Structure
@@ -111,11 +142,16 @@ the cell viability at a particular drug concentration.
 
 ```{r}
 # List available drugs and cell lines
-cat("Number of drugs:", length(drugNames(pset)), "\n")
-cat("Number of cell lines:", length(cellNames(pset)), "\n")
-cat("\nFirst 10 drugs:\n")
-head(drugNames(pset), 10)
-cat("\nFirst 10 cell lines:\n")
+# cat("Number of drugs:", length(drugNames(pset)), "\n")
+# Number of drugs: 10
+
+# cat("Number of cell lines:", length(cellNames(pset)), "\n")
+# Number of cell lines: 150
+
+# First 5 drugs:
+head(drugNames(pset), 5)
+
+# First 10 cell lines:
 head(cellNames(pset), 10)
 ```
 
@@ -167,8 +203,6 @@ scatter_plot <- plotExprAUC(
 )
 
 print(scatter_plot)
-
-
 ```
 
 ## 5: Creating a Volcano Plot for Genome-Wide Overview
@@ -187,7 +221,6 @@ volcano_plot <- volcanoAUC(
 )
 
 print(volcano_plot)
-
 ```
 
 ## 6: Classifying Samples into Response Groups
@@ -210,7 +243,6 @@ table(response_groups_q)
 # Using manual threshold
 response_groups_manual <- defineResponseGroups(pset, drug_of_interest, sensitivity.measure = "aac_recomputed", method = "manual", threshold = 0.6)
 table(response_groups_manual)
-
 ```
 
 ## 7: Differential Expression Analysis
@@ -227,7 +259,6 @@ diff_expr_res <- runDiffExpr(pset, groupLabels = response_groups, mDataType = "r
 
 # Inspect top genes
 head(diff_expr_res[order(diff_expr_res$adj_pval), ])
-
 ```
 
 
@@ -248,7 +279,6 @@ print(p1)
 # Violin plot
 p2 <- plotGeneBoxplot(pset, gene_of_interest, response_groups, mDataType = "rna", plotType = "violin")
 print(p2)
-
 ```
 
 
