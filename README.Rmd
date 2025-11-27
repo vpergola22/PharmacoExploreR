@@ -40,11 +40,26 @@ extensive programming experience.
 
 ## Installation
 
-To install the latest version of the package:
+**Important:** This package requires Bioconductor packages. Follow these steps in order:
+
+### Step 1: Install Bioconductor Manager
 ```r
-install.packages("devtools")
-library("devtools")
-devtools::install_github("YourGitHubUsername/PharmacoExploreR", build_vignettes = TRUE)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+```
+
+### Step 2: Install Bioconductor Dependencies
+```r
+# This may take several minutes
+BiocManager::install(c("PharmacoGx", "SummarizedExperiment"))
+```
+
+### Step 3: Install PharmacoExploreR
+```r
+if (!requireNamespace("devtools", quietly = TRUE))
+    install.packages("devtools")
+
+devtools::install_github("vpergola22/PharmacoExploreR", build_vignettes = TRUE)
 library("PharmacoExploreR")
 ```
 

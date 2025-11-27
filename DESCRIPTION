@@ -19,11 +19,13 @@ Imports:
     PharmacoGx,
     SummarizedExperiment,
     ggplot2,
+    reshape2,
     stats,
-    utils,
-    reshape2
+    utils
 Suggests:
+    BiocManager,
     testthat (>= 3.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    limma
 VignetteBuilder: knitr
