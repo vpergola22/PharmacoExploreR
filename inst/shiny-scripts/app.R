@@ -616,29 +616,40 @@ server <- function(input, output, session) {
     )
   })
   
-  # Cell line selector - FIXED to only show cell lines with data for selected drug
+  # Cell line selector - FIXED to only show cell lines with dose-response data
   output$cellLineSelector <- renderUI({
-    req(rv$pset, input$selectedDrug)
+    req(rv$pset)
     
     pset <- rv$pset
-    drug <- input$selectedDrug
     
-    # Get only cell lines that have sensitivity data for this drug
-    sens_info <- sensitivityInfo(pset)
-    drug_data <- sens_info[sens_info$drugid == drug, ]
-    valid_cell_lines <- unique(drug_data$cellid)
-    valid_cell_lines <- sort(valid_cell_lines)
-    
-    if (length(valid_cell_lines) == 0) {
-      return(p("No cell lines found for this drug.", style = "color: red;"))
-    }
-    
-    checkboxGroupInput(
-      inputId = "selectedCellLines",
-      label = paste0("Select Cell Lines (", length(valid_cell_lines), " available, max 5):"),
-      choices = valid_cell_lines,
-      selected = valid_cell_lines[1:min(3, length(valid_cell_lines))]
-    )
+    # For dose-response, check raw dose-response data availability
+    # This is stored in treatmentResponse$raw
+    tryCatch({
+      # Get cell lines from raw dose-response data
+      raw_data <- pset@treatmentResponse$raw
+      
+      if (!is.null(raw_data) && length(dim(raw_data)) >= 3) {
+        # Get cell lines that have dose-response data
+        valid_cell_lines <- rownames(raw_data[, , "Viability"])
+        valid_cell_lines <- valid_cell_lines[!is.na(valid_cell_lines)]
+        valid_cell_lines <- sort(valid_cell_lines)
+        
+        if (length(valid_cell_lines) == 0) {
+          return(p("No dose-response data available.", style = "color: red;"))
+        }
+        
+        checkboxGroupInput(
+          inputId = "selectedCellLines",
+          label = paste0("Select Cell Lines (", length(valid_cell_lines), " available, max 5):"),
+          choices = valid_cell_lines,
+          selected = valid_cell_lines[1:min(3, length(valid_cell_lines))]
+        )
+      } else {
+        return(p("No dose-response data structure found.", style = "color: red;"))
+      }
+    }, error = function(e) {
+      return(p(paste("Error loading cell lines:", e$message), style = "color: red;"))
+    })
   })
   
   # RUN ANALYSIS
