@@ -500,7 +500,7 @@ ui <- fluidPage(
             tags$li("Visit: ", 
                     tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
                            "GitHub Repository")),
-            tags$li("File: nci60_subset.rds"),
+            tags$li("File: nci60_mini.rds"),
             tags$li("Or use PharmacoGx to download public datasets")
           ),
           
@@ -539,7 +539,7 @@ server <- function(input, output, session) {
     if (input$dataSource == "demo") {
       # Load demo data
       tryCatch({
-        rv$pset <- readRDS(system.file("extdata", "nci60_subset.rds",
+        rv$pset <- readRDS(system.file("extdata", "nci60_mini.rds",
                                        package = "PharmacoExploreR"))
         showNotification("Demo data loaded successfully!", 
                          type = "message", duration = 3)
@@ -616,17 +616,28 @@ server <- function(input, output, session) {
     )
   })
   
-  # Cell line selector
+  # Cell line selector - FIXED to only show cell lines with data for selected drug
   output$cellLineSelector <- renderUI({
-    req(rv$pset)
+    req(rv$pset, input$selectedDrug)
     
-    cellLines <- cellNames(rv$pset)
+    pset <- rv$pset
+    drug <- input$selectedDrug
+    
+    # Get only cell lines that have sensitivity data for this drug
+    sens_info <- sensitivityInfo(pset)
+    drug_data <- sens_info[sens_info$drugid == drug, ]
+    valid_cell_lines <- unique(drug_data$cellid)
+    valid_cell_lines <- sort(valid_cell_lines)
+    
+    if (length(valid_cell_lines) == 0) {
+      return(p("No cell lines found for this drug.", style = "color: red;"))
+    }
     
     checkboxGroupInput(
       inputId = "selectedCellLines",
-      label = "Select Cell Lines (max 5):",
-      choices = cellLines,
-      selected = cellLines[1:min(3, length(cellLines))]
+      label = paste0("Select Cell Lines (", length(valid_cell_lines), " available, max 5):"),
+      choices = valid_cell_lines,
+      selected = valid_cell_lines[1:min(3, length(valid_cell_lines))]
     )
   })
   
@@ -817,7 +828,7 @@ server <- function(input, output, session) {
       )
   })
   
-  # DIFFERENTIAL EXPRESSION
+  # DIFFERENTIAL EXPRESSION - FIXED to filter cell lines properly
   
   observeEvent(input$runDiffExpr, {
     req(rv$pset, rv$responseGroups)
@@ -825,9 +836,29 @@ server <- function(input, output, session) {
     withProgress(message = 'Running differential expression...', value = 0.5, {
       
       tryCatch({
+        pset <- rv$pset
+        groups <- rv$responseGroups
+        
+        # Get cell lines with molecular data
+        cells_with_molecular <- colnames(molecularProfiles(pset, "rna"))
+        
+        # Filter groups to only cells with molecular data
+        valid_cells <- intersect(names(groups), cells_with_molecular)
+        
+        if (length(valid_cells) < 2) {
+          showNotification(
+            "Not enough cell lines with both drug and molecular data",
+            type = "error",
+            duration = 5
+          )
+          return(NULL)
+        }
+        
+        groups_filtered <- groups[valid_cells]
+        
         rv$diffExprResults <- runDiffExpr(
-          pset = rv$pset,
-          groupLabels = rv$responseGroups,
+          pset = pset,
+          groupLabels = groups_filtered,
           mDataType = "rna",
           method = input$diffExprMethod
         )
@@ -905,13 +936,98 @@ server <- function(input, output, session) {
   
   output$downloadPlot <- downloadHandler(
     filename = function() {
-      paste0("plot_", Sys.Date(), ".png")
+      # Generate filename based on current tab
+      tab <- input$mainTabs
+      drug <- if (!is.null(input$selectedDrug)) input$selectedDrug else "unknown"
+      
+      filename <- switch(
+        tab,
+        "Volcano Plot" = paste0("volcano_", drug, "_", Sys.Date(), ".png"),
+        "Gene Scatterplot" = paste0("scatter_", drug, "_", input$selectedGene, "_", Sys.Date(), ".png"),
+        "Response Groups" = paste0("groups_", drug, "_", Sys.Date(), ".png"),
+        "Differential Expression" = paste0("diffexpr_", drug, "_", Sys.Date(), ".png"),
+        "Dose-Response Curves" = paste0("dose_response_", drug, "_", Sys.Date(), ".png"),
+        paste0("plot_", Sys.Date(), ".png")
+      )
+      
+      filename
     },
     content = function(file) {
-      # Save the current plot
-      # This is a placeholder - implement based on current tab
-      showNotification("Plot download feature coming soon!",
-                       type = "message")
+      # Save plot based on current tab
+      tab <- input$mainTabs
+      
+      png(file, width = 1200, height = 800, res = 150)
+      
+      tryCatch({
+        if (tab == "Volcano Plot") {
+          req(rv$correlations)
+          print(volcanoAUC(
+            corResults = rv$correlations,
+            corThreshold = input$volcanoCorThreshold,
+            pvalThreshold = input$volcanoPvalThreshold
+          ))
+          
+        } else if (tab == "Gene Scatterplot") {
+          req(rv$pset, rv$correlations, input$selectedGene, input$selectedDrug)
+          print(plotExprAUC(
+            pset = rv$pset,
+            corResults = rv$correlations,
+            gene = input$selectedGene,
+            drug = input$selectedDrug,
+            mDataType = "rna",
+            sensitivity.measure = input$sensitivityMeasure,
+            method = input$correlationMethod
+          ))
+          
+        } else if (tab == "Response Groups") {
+          req(rv$responseGroups)
+          df <- data.frame(Group = rv$responseGroups)
+          p <- ggplot(df, aes(x = Group, fill = Group)) +
+            geom_bar() +
+            scale_fill_manual(values = c("sensitive" = "#2ecc71", 
+                                         "resistant" = "#e74c3c")) +
+            labs(title = "Sample Distribution by Response Group",
+                 x = "Response Group",
+                 y = "Number of Samples") +
+            theme_minimal(base_size = 14) +
+            theme(legend.position = "none")
+          print(p)
+          
+        } else if (tab == "Differential Expression") {
+          req(rv$pset, rv$responseGroups, input$diffExprSelectedGene)
+          print(plotGeneBoxplot(
+            pset = rv$pset,
+            gene = input$diffExprSelectedGene,
+            groupLabels = rv$responseGroups,
+            mDataType = "rna",
+            plotType = "boxplot"
+          ))
+          
+        } else if (tab == "Dose-Response Curves") {
+          req(rv$pset, input$selectedCellLines)
+          selected <- input$selectedCellLines[1:min(5, length(input$selectedCellLines))]
+          print(plotDoseResponse(
+            pset = rv$pset,
+            cell.lines = selected,
+            sensitivity.measure = "Viability"
+          ))
+          
+        } else {
+          # No plot available for this tab
+          plot.new()
+          text(0.5, 0.5, "No plot available for this tab", cex = 1.5)
+        }
+        
+        dev.off()
+        
+      }, error = function(e) {
+        dev.off()
+        showNotification(
+          paste("Error saving plot:", e$message),
+          type = "error",
+          duration = 5
+        )
+      })
     }
   )
 }
