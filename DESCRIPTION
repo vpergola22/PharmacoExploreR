@@ -1,18 +1,12 @@
 Package: PharmacoExploreR
+Type: Package
 Title: Exploratory Analysis Tool for Pharmacogenomic Data
 Version: 0.1.0
-Authors@R: person("Victoria", "Pergola", 
-    email = "victoria.pergola@mail.utoronto.ca", role = c("aut", "cre"))
-Description: Provides reproducible and user-friendly tools for exploratory 
-    pharmacogenomic data analysis with PharmacoGx. Simplifies workflows for 
-    exploring relationships between drug response data (AUC, IC50) and molecular 
-    features such as gene expression from PharmacoSet objects. Includes 
-    functions for correlation analysis, sample classification, and high-quality 
-    visualizations including volcano plots and dose-response curves.
+Authors@R: person("Victoria", "Pergola", email = "victoria.pergola@mail.utoronto.ca", role = c("aut", "cre"))
+Description: Provides reproducible and user-friendly tools for exploratory pharmacogenomic data analysis with PharmacoGx. Simplifies workflows for exploring relationships between drug response data (AUC, IC50) and molecular features such as gene expression from PharmacoSet objects. Includes functions for correlation analysis, sample classification, and high-quality visualizations including volcano plots and dose-response curves.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: R (>= 4.0.0)
 Imports:
