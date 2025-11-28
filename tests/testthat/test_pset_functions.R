@@ -14,12 +14,11 @@ skip_if_no_pharmacogx <- function() {
 setup_test_pset <- function() {
   skip_if_no_pharmacogx()
   
-  # Load PSet (this will be slow the first time)
-  # Consider caching this or using a smaller subset
+  # Load mini PSet
   pset <- tryCatch({
-    downloadPSet("NCI60_2021")
+    readRDS(system.file("data", "nci60_mini.rds", package = "PharmacoExploreR"))
   }, error = function(e) {
-    skip("Could not download PSet for testing")
+    skip("Could not load PSet for testing")
   })
   
   return(pset)

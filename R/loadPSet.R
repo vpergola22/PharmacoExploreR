@@ -13,12 +13,14 @@
 #'   sensitivity measurements, and associated metadata.
 #'
 #' @examples
+#' \dontrun{
 #' # Load the NCI60 dataset
 #' pset <- loadPSet("NCI60_2021")
 #' 
 #' # View available datasets first
 #' library(PharmacoGx)
 #' availablePSets()
+#' }
 #'
 #' @references
 #' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,

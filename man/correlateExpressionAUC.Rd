@@ -67,7 +67,7 @@ results <- correlateExpressionAUC(
 head(results[order(abs(results$cor), decreasing = TRUE), ])
 
 # Filter for significant genes (safe even if adj_pval has NAs)
-sig_genes <- subset(results, !is.na(adj_pval) && adj_pval < 0.05)
+sig_genes <- subset(results, !is.na(adj_pval) & adj_pval < 0.05)
 
 }
 \references{
