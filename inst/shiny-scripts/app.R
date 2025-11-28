@@ -151,7 +151,7 @@ ui <- fluidPage(
                     treatment response (drug sensitivity) data"),
             tags$li(strong("Example data:"), 
                     "Download demo data from ",
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
                            "GitHub repository"))
           ),
           
@@ -532,7 +532,7 @@ server <- function(input, output, session) {
     if (input$dataSource == "demo") {
       # Load demo data
       tryCatch({
-        rv$pset <- readRDS(system.file("extdata", "nci60_subset.rds",
+        rv$pset <- readRDS(system.file("data", "nci60_subset.rds",
                                        package = "PharmacoExploreR"))
         showNotification("Demo data loaded successfully!", 
                          type = "message", duration = 3)
