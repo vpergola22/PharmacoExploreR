@@ -9,6 +9,13 @@ library(ggplot2)
 library(DT)
 
 
+
+# INCREASE FILE UPLOAD SIZE LIMIT
+
+# Default is 5MB, increase to 500MB for PharmacoSet files
+options(shiny.maxRequestSize = 500*1024^2)  # 500 MB
+
+
 # UI
 
 ui <- fluidPage(
@@ -151,7 +158,7 @@ ui <- fluidPage(
                     treatment response (drug sensitivity) data"),
             tags$li(strong("Example data:"), 
                     "Download demo data from ",
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
                            "GitHub repository"))
           ),
           
@@ -491,7 +498,7 @@ ui <- fluidPage(
           p("Demo data is included with the app. To download or explore:"),
           tags$ul(
             tags$li("Visit: ", 
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
                            "GitHub Repository")),
             tags$li("File: nci60_subset.rds"),
             tags$li("Or use PharmacoGx to download public datasets")
