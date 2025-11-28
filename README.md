@@ -68,7 +68,6 @@ runPharmacoExploreR()
 
 ``` r
 ls("package:PharmacoExploreR")
-data(package = "PharmacoExploreR")
 browseVignettes("PharmacoExploreR")
 ```
 

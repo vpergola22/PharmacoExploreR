@@ -33,15 +33,18 @@
 #' library(PharmacoGx)
 #' 
 #' # Load a PharmacoSet
-#' pset <- downloadPSet("NCI60_2021")
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
 #' 
 #' # View available drugs
-#' head(drugNames(pset))
+#' head(drugNames(nci60_mini))
 #' 
 #' # Correlate gene expression with drug response
 #' results <- correlateExpressionAUC(
-#'   pset = pset,
-#'   drug = "5-Fluorouracil",
+#'   pset = nci60_mini,
+#'   drug = "Erlotinib",
 #'   mDataType = "rna",
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "pearson"

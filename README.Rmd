@@ -72,7 +72,6 @@ runPharmacoExploreR()
 ## Overview
 ```{r, eval=FALSE}
 ls("package:PharmacoExploreR")
-data(package = "PharmacoExploreR")
 browseVignettes("PharmacoExploreR")
 ```
 
