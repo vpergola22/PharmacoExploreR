@@ -315,7 +315,7 @@ test_that("correlateExpressionAUC handles invalid drug name", {
       drug = "NonExistentDrug123",
       sensitivity.measure = "aac_recomputed"
     ),
-    "not found"
+    "\nPlease select one of the above drug names."
   )
 })
 
