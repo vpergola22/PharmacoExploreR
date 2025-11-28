@@ -158,7 +158,7 @@ ui <- fluidPage(
                     treatment response (drug sensitivity) data"),
             tags$li(strong("Example data:"), 
                     "Download demo data from ",
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
                            "GitHub repository"))
           ),
           
@@ -275,7 +275,7 @@ ui <- fluidPage(
         # TAB 4: Gene Scatterplot
         tabPanel(
           "Gene Scatterplot",
-          icon = icon("chart-scatter"),
+          icon = icon("chart-line"),
           
           h3("Gene Expression vs Drug Response"),
           
@@ -498,7 +498,7 @@ ui <- fluidPage(
           p("Demo data is included with the app. To download or explore:"),
           tags$ul(
             tags$li("Visit: ", 
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
                            "GitHub Repository")),
             tags$li("File: nci60_subset.rds"),
             tags$li("Or use PharmacoGx to download public datasets")
@@ -539,7 +539,7 @@ server <- function(input, output, session) {
     if (input$dataSource == "demo") {
       # Load demo data
       tryCatch({
-        rv$pset <- readRDS(system.file("data", "nci60_subset.rds",
+        rv$pset <- readRDS(system.file("extdata", "nci60_subset.rds",
                                        package = "PharmacoExploreR"))
         showNotification("Demo data loaded successfully!", 
                          type = "message", duration = 3)
