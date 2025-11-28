@@ -47,7 +47,6 @@ Returns statistical measures including log fold change and adjusted p-values
 for each gene.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data
@@ -86,7 +85,6 @@ diff_expr_limma <- runDiffExpr(
   groupLabels = groups,
   method = "limma"
 )
-}
 
 }
 \references{

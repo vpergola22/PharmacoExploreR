@@ -42,7 +42,6 @@ Useful for visualizing differential expression results and validating
 biomarker candidates.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data
@@ -84,7 +83,6 @@ p2 <- plotGeneBoxplot(
   showPoints = TRUE
 )
 print(p2)
-}
 
 }
 \references{

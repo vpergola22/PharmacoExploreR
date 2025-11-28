@@ -28,7 +28,6 @@
 #'   some samples may be NA (middle quantile).
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data
@@ -66,7 +65,6 @@
 #'   threshold = 0.6
 #' )
 #' table(groups_manual)
-#' }
 #'
 #' @references
 #' R Core Team (2024). R: A Language and Environment for Statistical Computing.

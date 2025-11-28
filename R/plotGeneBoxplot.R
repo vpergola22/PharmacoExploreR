@@ -27,7 +27,6 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data
@@ -66,7 +65,6 @@
 #'   groupLabels = groups,
 #'   method = "limma"
 #' )
-#' }
 #'
 #' @references
 #' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).

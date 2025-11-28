@@ -16,7 +16,6 @@
 #'   and colored points indicating significant genes.
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data and compute correlations
@@ -48,7 +47,6 @@
 #'   corThreshold = 0.5,
 #'   pvalThreshold = 0.01
 #' )
-#' }
 #'
 #' @references
 #' Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.

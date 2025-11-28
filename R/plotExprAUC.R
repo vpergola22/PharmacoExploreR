@@ -20,7 +20,6 @@
 #' @return A ggplot2 object displaying the scatterplot with regression line.
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data and compute correlations
@@ -49,7 +48,6 @@
 #' )
 #' 
 #' print(plot)
-#' }
 #'
 #' @references
 #' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).

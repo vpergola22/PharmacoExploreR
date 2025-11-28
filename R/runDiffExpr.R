@@ -22,7 +22,6 @@
 #'   by response group.
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data
@@ -64,7 +63,6 @@
 #'   showPoints = TRUE
 #' )
 #' print(p2)
-#' }
 #'
 #' @references
 #' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).

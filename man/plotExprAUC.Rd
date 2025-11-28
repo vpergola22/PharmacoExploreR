@@ -43,7 +43,6 @@ linear regression line and displays the correlation coefficient and
 statistical significance.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data and compute correlations
@@ -72,7 +71,6 @@ plot <- plotExprAUC(
 )
 
 print(plot)
-}
 
 }
 \references{

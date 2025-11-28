@@ -49,7 +49,6 @@ based on their drug sensitivity values. Multiple classification methods
 are supported: median split, quantile-based, or manual threshold.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data
@@ -87,7 +86,6 @@ groups_manual <- defineResponseGroups(
   threshold = 0.6
 )
 table(groups_manual)
-}
 
 }
 \references{

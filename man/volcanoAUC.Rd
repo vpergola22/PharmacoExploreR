@@ -27,7 +27,6 @@ a genome-wide overview of gene-drug associations, highlighting genes
 that meet both correlation and significance thresholds.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data and compute correlations
@@ -59,7 +58,6 @@ volcano_strict <- volcanoAUC(
   corThreshold = 0.5,
   pvalThreshold = 0.01
 )
-}
 
 }
 \references{

@@ -29,7 +29,6 @@ Each curve represents one cell line, allowing visual comparison of drug
 sensitivity across samples.
 }
 \examples{
-\dontrun{
 library(PharmacoGx)
 
 # Load data
@@ -64,7 +63,6 @@ plot_compare <- plotDoseResponse(
   pset = nci60_mini,
   cell.lines = c(sens_lines, res_lines)
 )
-}
 
 }
 \references{

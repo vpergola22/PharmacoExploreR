@@ -18,7 +18,6 @@
 #'   x-axis (dose) and smoothed trend lines for each cell line.
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load data
@@ -53,7 +52,6 @@
 #'   pset = nci60_mini,
 #'   cell.lines = c(sens_lines, res_lines)
 #' )
-#' }
 #'
 #' @references
 #' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
