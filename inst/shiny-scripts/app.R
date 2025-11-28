@@ -59,7 +59,7 @@ ui <- fluidPage(
       # Demo data info (conditional)
       conditionalPanel(
         condition = "input.dataSource == 'demo'",
-        helpText("Using included demo dataset with 1000 genes, 15 drugs, and 60 cell lines")
+        helpText("Using included demo dataset with 15 drugs and 60 cell lines")
       ),
       
       hr(),
@@ -491,7 +491,7 @@ ui <- fluidPage(
           p("Demo data is included with the app. To download or explore:"),
           tags$ul(
             tags$li("Visit: ", 
-                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/inst/extdata",
+                    tags$a(href = "https://github.com/vpergola22/PharmacoExploreR/tree/main/data",
                            "GitHub Repository")),
             tags$li("File: nci60_subset.rds"),
             tags$li("Or use PharmacoGx to download public datasets")
