@@ -101,21 +101,26 @@ functions in this package, including correlateExpressionAUC(),
 volcanoAUC(), plotExprAUC(), defineResponseGroups(), runDiffExpr(),
 plotGeneBoxplot(), plotDoseResponse(), and loadPSet().
 
-The following packages were used in development: - **PharmacoGx**
-(Smirnov et al., 2016) for PharmacoSet data structure and accessor
-functions - **SummarizedExperiment** (Morgan et al., 2024) for handling
-expression data and molecular profiles - **ggplot2** (Wickham, 2016) for
-visualization functions - **reshape2** (Wickham, 2007) for data
-transformation - **shiny** (Chang et al., 2023) for interactive web
-application - **DT** (Xie et al., 2025) for interactive data tables -
-**stats** for statistical testing and correlation analysis - **utils**
-for utility functions - **limma** (Ritchie et al., 2015) for
-differential expression analysis (optional) - **knitr** (Xie, 2025) and
-**rmarkdown** (Allaire et al., 2025) for documentation - **testthat**
-(Wickham, 2011) for unit testing - **BiocManager** (Morgan & Ramos,
-2025) for package management
+The following packages were used in development:
 
-\[If you used AI tools:\] Generative AI tools were used as follows: -
+- **PharmacoGx** (Smirnov et al., 2016) for PharmacoSet data structure
+  and accessor functions
+- **SummarizedExperiment** (Morgan et al., 2024) for handling expression
+  data and molecular profiles
+- **ggplot2** (Wickham, 2016) for visualization functions
+- **reshape2** (Wickham, 2007) for data transformation
+- **shiny** (Chang et al., 2023) for interactive web application
+- **DT** (Xie et al., 2025) for interactive data tables
+- **stats** for statistical testing and correlation analysis
+- **utils** for utility functions
+- **limma** (Ritchie et al., 2015) for differential expression analysis
+  (optional)
+- **knitr** (Xie, 2025) and **rmarkdown** (Allaire et al., 2025) for
+  documentation
+- **testthat** (Wickham, 2011) for unit testing
+- **BiocManager** (Morgan & Ramos, 2025) for package management
+
+\[If you used AI tools:\] Generative AI tools were used as follows:
 ChatGPT and Claude were consulted for debugging errors found within the
 correlateExpressionAUC() function and shiny app. The AI-suggested
 solutions were reviewed and adapted to fit the package design.

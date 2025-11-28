@@ -187,7 +187,7 @@ specified drug across the same cell lines. It then creates a scatterplot showing
 the relationship with a regression line to visualize the trend, and displays 
 correlation coefficient and p-value on the plot.
 
-```{r}
+```{r, fig.cap="This scatterplot shows the relationship between expression of the selected gene and the AAC values for Erlotinib across all cell lines. Each point represents a cell line, with gene expression on the x-axis and drug sensitivity on the y-axis (higher AAC = greater sensitivity). The regression line and accompanying correlation coefficient provide a visual summary of whether gene expression is positively or negatively associated with drug response."}
 # Select the most highly correlated gene
 gene_of_interest <- res$gene[which.max(abs(res$cor))]
 drug_of_interest <- "Erlotinib"
@@ -212,7 +212,7 @@ against the statistical significance (y-axis), highlighting genes that pass both
 correlation and significance thresholds.
 
 
-```{r}
+```{r, fig.cap="This volcano plot provides a genome-wide overview of gene expression correlations with Erlotinib AAC. Each point represents a gene, plotted by correlation strength (x-axis) and −log10(p-value) (y-axis). Genes that pass the specified significance and correlation thresholds are highlighted, helping identify candidate biomarkers that show both strong association and statistical significance."}
 # Volcano plot using the results from correlateExpressionAUC
 volcano_plot <- volcanoAUC(
   corResults = res,
@@ -269,13 +269,15 @@ expression differs between sensitive and resistant groups. Here we use
 these relationships.
 
 
-```{r}
+```{r, fig.cap="This boxplot compares the expression of the selected gene between cell lines classified as sensitive or resistant to Erlotinib using median-based grouping. The plot displays median expression, variability, and outliers, allowing users to visually assess whether gene expression differs meaningfully between response groups."}
 # Assume response_groups was created with defineResponseGroups()
 
 # Boxplot
 p1 <- plotGeneBoxplot(pset, gene_of_interest, response_groups, mDataType = "rna", plotType = "boxplot")
 print(p1)
+```
 
+```{r, fig.cap="This violin plot provides a visualization of the distribution of gene expression for the same sensitive and resistant groups, combining density information with summary statistics. The shape reveals distributional differences that may not be apparent in boxplots alone, such as multimodality or skew."}
 # Violin plot
 p2 <- plotGeneBoxplot(pset, gene_of_interest, response_groups, mDataType = "rna", plotType = "violin")
 print(p2)
@@ -291,7 +293,7 @@ viability (y-axis) against drug concentration (x-axis). Each curve represents
 one cell line, showing how cell viability decreases as drug 
 concentration increases.
 
-```{r}
+```{r, fig.width=9, fig.cap="These dose–response curves show how cell viability changes with increasing concentrations of Erlotinib for three selected cell lines. Each curve represents one cell line, with drug concentration on the x-axis and viability on the y-axis. This visualization highlights differences in drug sensitivity and allows users to qualitatively compare response profiles across samples."}
 # Pick 3 valid cell lines from the available ones
 validCellLines <- rownames(pset@treatmentResponse$raw[, , "Viability"])
 cellLines <- validCellLines[1:3]
