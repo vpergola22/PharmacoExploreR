@@ -29,7 +29,6 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
 #' library(PharmacoGx)
 #' 
 #' # Load a PharmacoSet
@@ -55,7 +54,6 @@
 #' 
 #' # Filter for significant genes
 #' sig_genes <- results[results$adj_pval < 0.05, ]
-#' }
 #'
 #' @references
 #' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
