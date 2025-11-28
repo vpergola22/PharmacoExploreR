@@ -21,7 +21,9 @@ Imports:
     ggplot2,
     reshape2,
     stats,
-    utils
+    utils,
+    shiny,
+    DT
 Suggests:
     BiocManager,
     testthat (>= 3.0.0),

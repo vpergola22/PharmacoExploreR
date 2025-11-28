@@ -64,7 +64,10 @@ library("PharmacoExploreR")
 ```
 
 To run the shinyApp:  
-Under construction
+```r
+library(PharmacoExploreR)
+runPharmacoExploreR()
+```
 
 ## Overview
 ```{r, eval=FALSE}
@@ -84,7 +87,7 @@ PharmacoExploreR contains 8 main functions:
 7. **plotGeneBoxplot()** - Plot expression distribution for genes between groups
 8. **plotDoseResponse()** - Plot fitted dose-response curves for cell lines
 
-![](./vignettes/PharmacoExploreR_Workflow.png)
+![](./inst/extdata/PharmacoExploreR_Workflow.png)
 
 Refer to package vignettes for detailed tutorials and examples.
 
@@ -114,7 +117,12 @@ Goldenberg, A., & Haibe-Kains, B. (2016). PharmacoGx: an R package for analysis 
 large pharmacogenomic datasets. *Bioinformatics*, 32(8), 1244-1246. 
 https://doi.org/10.1093/bioinformatics/btv723
 
-Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York.
+Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag
+New York.
+
+Chang, W., J. Cheng, J. Allaire, C. Sievert, B. Schloerke, Y. Xie, J. Allen, 
+J. McPherson, A. Dipert, B. Borges (2023). shiny: Web Application Framework for 
+R. R package version 1.8.0, https://CRAN.R-project.org/package=shiny
 
 
 ## Acknowledgements
