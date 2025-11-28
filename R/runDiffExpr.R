@@ -26,12 +26,16 @@
 #' library(PharmacoGx)
 #' 
 #' # Load data
-#' pset <- downloadPSet("NCI60_2021")
-#' drug_name <- drugNames(pset)[1]
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
+#' 
+#' drug_name <- drugNames(nci60_mini)[1]
 #' 
 #' # Define response groups
 #' groups <- defineResponseGroups(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "median"
@@ -44,7 +48,7 @@
 #' top_gene <- diff_expr$gene[which.min(diff_expr$adj_pval)]
 #' 
 #' p1 <- plotGeneBoxplot(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   gene = top_gene,
 #'   groupLabels = groups,
 #'   plotType = "boxplot"
@@ -53,7 +57,7 @@
 #' 
 #' # Plot with violin plot
 #' p2 <- plotGeneBoxplot(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   gene = top_gene,
 #'   groupLabels = groups,
 #'   plotType = "violin",

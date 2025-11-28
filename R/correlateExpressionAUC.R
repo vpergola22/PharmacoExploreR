@@ -29,17 +29,12 @@
 #' }
 #'
 #' @examples
-#' library(PharmacoGx)
-#' 
-#' # Load a PharmacoSet
-#' # pset <- downloadPSet("NCI60_2021")
-#' 
-#' # (for demo purposes we will use the mini dataset)
+#' # Load the bundled mini PharmacoSet dataset
 #' data("nci60_mini")
-#' 
+#'
 #' # View available drugs
-#' head(drugNames(nci60_mini))
-#' 
+#' head(PharmacoGx::drugNames(nci60_mini))
+#'
 #' # Correlate gene expression with drug response
 #' results <- correlateExpressionAUC(
 #'   pset = nci60_mini,
@@ -48,12 +43,12 @@
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "pearson"
 #' )
-#' 
+#'
 #' # View top correlated genes
 #' head(results[order(abs(results$cor), decreasing = TRUE), ])
-#' 
-#' # Filter for significant genes
-#' sig_genes <- results[results$adj_pval < 0.05, ]
+#'
+#' # Filter for significant genes (safe even if adj_pval has NAs)
+#' sig_genes <- subset(results, !is.na(adj_pval) && adj_pval < 0.05)
 #'
 #' @references
 #' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).

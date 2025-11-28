@@ -22,32 +22,35 @@
 #' library(PharmacoGx)
 #' 
 #' # Load data
-#' pset <- downloadPSet("NCI60_2021")
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
 #' 
 #' # View available cell lines
-#' head(cellNames(pset))
+#' head(cellNames(nci60_mini))
 #' 
 #' # Select 3 cell lines for comparison
-#' selected_lines <- cellNames(pset)[1:3]
+#' selected_lines <- cellNames(nci60_mini)[1:3]
 #' 
 #' # Plot dose-response curves
 #' plot <- plotDoseResponse(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   cell.lines = selected_lines,
 #'   sensitivity.measure = "Viability"
 #' )
 #' print(plot)
 #' 
 #' # Compare sensitive vs resistant cell lines
-#' drug_name <- drugNames(pset)[1]
-#' groups <- defineResponseGroups(pset, drug_name, method = "quantile")
+#' drug_name <- drugNames(nci60_mini)[1]
+#' groups <- defineResponseGroups(nci60_mini, drug_name, method = "quantile")
 #' 
 #' # Get 2 most sensitive and 2 most resistant
 #' sens_lines <- names(groups[groups == "sensitive"])[1:2]
 #' res_lines <- names(groups[groups == "resistant"])[1:2]
 #' 
 #' plot_compare <- plotDoseResponse(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   cell.lines = c(sens_lines, res_lines)
 #' )
 #' }

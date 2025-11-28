@@ -31,12 +31,16 @@
 #' library(PharmacoGx)
 #' 
 #' # Load data
-#' pset <- downloadPSet("NCI60_2021")
-#' drug_name <- drugNames(pset)[1]
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
+#' 
+#' drug_name <- drugNames(nci60_mini)[1]
 #' 
 #' # Define response groups
 #' groups <- defineResponseGroups(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "median"
@@ -44,7 +48,7 @@
 #' 
 #' # Run differential expression using t-test
 #' diff_expr <- runDiffExpr(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   groupLabels = groups,
 #'   mDataType = "rna",
 #'   method = "t.test"
@@ -58,7 +62,7 @@
 #' 
 #' # Using limma (if installed)
 #' diff_expr_limma <- runDiffExpr(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   groupLabels = groups,
 #'   method = "limma"
 #' )

@@ -24,11 +24,15 @@
 #' library(PharmacoGx)
 #' 
 #' # Load data and compute correlations
-#' pset <- downloadPSet("NCI60_2021")
-#' drug_name <- drugNames(pset)[1]
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
+#' 
+#' drug_name <- drugNames(nci60_mini)[1]
 #' 
 #' results <- correlateExpressionAUC(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed"
 #' )
@@ -37,7 +41,7 @@
 #' top_gene <- results$gene[which.max(abs(results$cor))]
 #' 
 #' plot <- plotExprAUC(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   corResults = results,
 #'   gene = top_gene,
 #'   drug = drug_name,

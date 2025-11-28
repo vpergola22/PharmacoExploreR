@@ -20,9 +20,6 @@
 #' # View available datasets first
 #' library(PharmacoGx)
 #' availablePSets()
-#' 
-#' # Load GDSC dataset
-#' gdsc <- loadPSet("GDSC_2020(v2-8.2)")
 #' }
 #'
 #' @references

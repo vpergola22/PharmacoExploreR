@@ -32,12 +32,15 @@
 #' library(PharmacoGx)
 #' 
 #' # Load data
-#' pset <- downloadPSet("NCI60_2021")
-#' drug_name <- drugNames(pset)[1]
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
+#' data("nci60_mini")
+#' drug_name <- drugNames(nci60_mini)[1]
 #' 
 #' # Method 1: Median split (most common)
 #' groups_median <- defineResponseGroups(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "median"
@@ -46,7 +49,7 @@
 #' 
 #' # Method 2: Quantile-based (more stringent)
 #' groups_quantile <- defineResponseGroups(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "quantile",
@@ -56,7 +59,7 @@
 #' 
 #' # Method 3: Manual threshold
 #' groups_manual <- defineResponseGroups(
-#'   pset = pset,
+#'   pset = nci60_mini,
 #'   drug = drug_name,
 #'   sensitivity.measure = "aac_recomputed",
 #'   method = "manual",
