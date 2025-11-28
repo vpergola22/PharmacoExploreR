@@ -61,7 +61,7 @@ groups <- defineResponseGroups(
 )
 
 # Run differential expression
-diff_expr <- runDiffExpr(pset, groups, method = "t.test")
+diff_expr <- runDiffExpr(nci60_mini, groups, method = "t.test")
 
 # Plot top gene with boxplot
 top_gene <- diff_expr$gene[which.min(diff_expr$adj_pval)]

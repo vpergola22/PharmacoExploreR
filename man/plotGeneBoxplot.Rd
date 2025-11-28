@@ -56,8 +56,7 @@ library(PharmacoGx)
 data("nci60_mini")
 
 drug_name <- drugNames(nci60_mini)[1]
-
-# Define response groups
+# Define response groups using median split
 groups <- defineResponseGroups(
   pset = nci60_mini,
   drug = drug_name,
@@ -73,18 +72,28 @@ diff_expr <- runDiffExpr(
   method = "t.test"
 )
 
-# View top differentially expressed genes
-head(diff_expr[order(diff_expr$adj_pval), ])
+# Pick the top significant gene for plotting
+top_gene <- diff_expr$gene[which.min(diff_expr$adj_pval)]
 
-# Filter for significant genes
-sig_genes <- diff_expr[diff_expr$adj_pval < 0.05 & abs(diff_expr$logFC) > 1, ]
-
-# Using limma (if installed)
-diff_expr_limma <- runDiffExpr(
+# Plot boxplot of expression for top gene
+p <- plotGeneBoxplot(
   pset = nci60_mini,
+  gene = top_gene,
   groupLabels = groups,
-  method = "limma"
+  mDataType = "rna",
+  plotType = "boxplot"
 )
+print(p)
+
+# Optional: violin plot
+p_violin <- plotGeneBoxplot(
+  pset = nci60_mini,
+  gene = top_gene,
+  groupLabels = groups,
+  mDataType = "rna",
+  plotType = "violin"
+)
+print(p_violin)
 
 }
 \references{
