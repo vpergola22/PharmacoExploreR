@@ -483,14 +483,16 @@ ui <- fluidPage(
             tags$li("Ensure file is a valid PharmacoSet saved as .rds"),
             tags$li("File must contain both molecular profiles and 
                     sensitivity data"),
-            tags$li("Maximum file size: 100 MB")
+            tags$li("Maximum file size: 500 MB")
           ),
           
           h4("Plots not displaying?"),
           tags$ul(
             tags$li("Run the analysis first using 'Run Analysis' button"),
             tags$li("For some plots, additional steps may be required 
-                    (e.g., classify samples first)")
+                    (e.g., classify samples first)"),
+            tags$li("Tabs such as Gene Scatterplot and Differential Expression 
+                    take a couple minutes to load :)")
           ),
           
           h3("Getting Example Data"),
@@ -505,6 +507,13 @@ ui <- fluidPage(
           ),
           
           h3("References"),
+          
+          
+          p("Chang, W., J. Cheng, J. Allaire, C. Sievert, B. Schloerke, Y. Xie, 
+          J. Allen, J. McPherson, A. Dipert, B. Borges (2023). shiny: Web 
+          Application Framework for R. R package version 1.8.0, 
+          https://CRAN.R-project.org/package=shiny"),
+          
           
           p("Smirnov, P., et al. (2016). PharmacoGx: an R package for 
             analysis of large pharmacogenomic datasets. Bioinformatics, 32(8), 1244-1246."),
