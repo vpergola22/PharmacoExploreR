@@ -55,6 +55,11 @@
 #' }
 #'
 #' @references
+#' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+#' SummarizedExperiment: A container (S4 class) for matrix-like assays.
+#' R package version 1.36.0.
+#' \href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+#' 
 #' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
 #' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
 #' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).

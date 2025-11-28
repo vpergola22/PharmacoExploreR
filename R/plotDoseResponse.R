@@ -59,6 +59,10 @@
 #' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
 #' \emph{Bioinformatics}, 32(8), 1244-1246.
 #' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#' 
+#' Wickham, H. (2007). Reshaping Data with the reshape Package.
+#' \emph{Journal of Statistical Software}, 21(12), 1-20.
+#' \href{https://www.jstatsoft.org/v21/i12/}{Link}.
 #'
 #' Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
 #' Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.

@@ -65,6 +65,22 @@
 #' }
 #'
 #' @references
+#' Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+#' SummarizedExperiment: A container (S4 class) for matrix-like assays.
+#' R package version 1.36.0.
+#' \href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+#' 
+#' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+#' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+#' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+#' PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+#' \emph{Bioinformatics}, 32(8), 1244-1246.
+#' \href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+#' 
+#' R Core Team (2024). R: A Language and Environment for Statistical Computing.
+#' R Foundation for Statistical Computing, Vienna, Austria.
+#' \href{https://www.R-project.org/}{Link}.
+#' 
 #' Ritchie, M. E., Phipson, B., Wu, D., Hu, Y., Law, C. W., Shi, W., &
 #' Smyth, G. K. (2015). limma powers differential expression analyses for
 #' RNA-sequencing and microarray studies. \emph{Nucleic Acids Research},

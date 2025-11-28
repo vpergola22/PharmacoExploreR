@@ -101,17 +101,56 @@ functions in this package, including correlateExpressionAUC(),
 volcanoAUC(), plotExprAUC(), defineResponseGroups(), runDiffExpr(),
 plotGeneBoxplot(), plotDoseResponse(), and loadPSet().
 
-The following packages were used in development: - PharmacoGx (Smirnov
-et al., 2016) for PharmacoSet data structure and accessor functions -
-ggplot2 for visualization functions - SummarizedExperiment for handling
-expression data - stats package for correlation testing
+The following packages were used in development: - **PharmacoGx**
+(Smirnov et al., 2016) for PharmacoSet data structure and accessor
+functions - **SummarizedExperiment** (Morgan et al., 2024) for handling
+expression data and molecular profiles - **ggplot2** (Wickham, 2016) for
+visualization functions - **reshape2** (Wickham, 2007) for data
+transformation - **shiny** (Chang et al., 2023) for interactive web
+application - **DT** (Xie et al., 2025) for interactive data tables -
+**stats** for statistical testing and correlation analysis - **utils**
+for utility functions - **limma** (Ritchie et al., 2015) for
+differential expression analysis (optional) - **knitr** (Xie, 2025) and
+**rmarkdown** (Allaire et al., 2025) for documentation - **testthat**
+(Wickham, 2011) for unit testing - **BiocManager** (Morgan & Ramos,
+2025) for package management
 
 \[If you used AI tools:\] Generative AI tools were used as follows: -
-ChatGPT/Claude was consulted for debugging error messages in
-correlateExpressionAUC() function. The AI-suggested solutions were
-reviewed and adapted to fit the package design.
+ChatGPT and Claude were consulted for debugging errors found within the
+correlateExpressionAUC() function and shiny app. The AI-suggested
+solutions were reviewed and adapted to fit the package design.
 
 ## References
+
+Allaire J, Xie Y, Dervieux C, McPherson J, Luraschi J, Ushey K, Atkins
+A, Wickham H, Cheng J, Chang W, Iannone R (2025). *rmarkdown: Dynamic
+Documents for R*. R package version 2.30,
+<https://github.com/rstudio/rmarkdown>.
+
+Chang, W., J. Cheng, J. Allaire, C. Sievert, B. Schloerke, Y. Xie, J.
+Allen, J. McPherson, A. Dipert, B. Borges (2023). shiny: Web Application
+Framework for R. R package version 1.8.0,
+<https://CRAN.R-project.org/package=shiny>
+
+Morgan M, Obenchain V, Hester J, Pagès H (2024). *SummarizedExperiment:
+A container (S4 class) for matrix-like assays*.
+<doi:10.18129/B9.bioc.SummarizedExperiment>
+<https://doi.org/10.18129/B9.bioc.SummarizedExperiment>, R package
+version 1.36.0,
+<https://bioconductor.org/packages/SummarizedExperiment>.
+
+Morgan M, Ramos M (2025). *BiocManager: Access the Bioconductor Project
+Package Repository*. R package version 1.30.26,
+<https://CRAN.R-project.org/package=BiocManager>.
+
+R Core Team (2024). *R: A Language and Environment for Statistical
+Computing*. R Foundation for Statistical Computing, Vienna, Austria.
+<https://www.R-project.org/>.
+
+Ritchie, M.E., Phipson, B., Wu, D., Hu, Y., Law, C.W., Shi, W., and
+Smyth, G.K. (2015). limma powers differential expression analyses for
+RNA-sequencing and microarray studies. Nucleic Acids Research 43(7),
+e47.
 
 Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
 Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H., Aerts,
@@ -120,13 +159,23 @@ an R package for analysis of large pharmacogenomic datasets.
 *Bioinformatics*, 32(8), 1244-1246.
 <https://doi.org/10.1093/bioinformatics/btv723>
 
+Wickham H (2007). “Reshaping Data with the reshape Package.” *Journal of
+Statistical Software*, *21*(12), 1-20.
+<https://www.jstatsoft.org/v21/i12/>.
+
+Wickham H (2011). “testthat: Get Started with Testing.” *The R Journal*,
+*3*, 5-10.
+<https://journal.r-project.org/archive/2011-1/RJournal_2011-1_Wickham.pdf>.
+
 Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
 Springer-Verlag New York.
 
-Chang, W., J. Cheng, J. Allaire, C. Sievert, B. Schloerke, Y. Xie, J.
-Allen, J. McPherson, A. Dipert, B. Borges (2023). shiny: Web Application
-Framework for R. R package version 1.8.0,
-<https://CRAN.R-project.org/package=shiny>
+Xie Y (2025). *knitr: A General-Purpose Package for Dynamic Report
+Generation in R*. R package version 1.50, <https://yihui.org/knitr/>.
+
+Xie Y, Cheng J, Tan X, Aden-Buie G (2025). *DT: A Wrapper of the
+JavaScript Library ‘DataTables’*. R package version 0.34.0,
+<https://CRAN.R-project.org/package=DT>.
 
 ## Acknowledgements
 

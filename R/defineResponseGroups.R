@@ -66,6 +66,10 @@
 #' }
 #'
 #' @references
+#' R Core Team (2024). R: A Language and Environment for Statistical Computing.
+#' R Foundation for Statistical Computing, Vienna, Austria.
+#' \href{https://www.R-project.org/}{Link}.
+#' 
 #' Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
 #' Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
 #' Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
