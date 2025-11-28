@@ -34,10 +34,10 @@ Options are "pearson" (default), "spearman", or "kendall".}
 \value{
 A data frame with the following columns:
 \itemize{
-\item gene - Character vector of gene names
-\item cor - Numeric vector of correlation coefficients
-\item pval - Numeric vector of p-values from correlation tests
-\item adj_pval - Numeric vector of FDR-adjusted p-values
+  \item gene - Character vector of gene names
+  \item cor - Numeric vector of correlation coefficients
+  \item pval - Numeric vector of p-values from correlation tests
+  \item adj_pval - Numeric vector of FDR-adjusted p-values
 }
 }
 \description{
@@ -48,19 +48,16 @@ coefficient, p-value, and FDR-adjusted p-value to identify genes whose
 expression is associated with drug response.
 }
 \examples{
-\dontrun{
-library(PharmacoGx)
-
-# Load a PharmacoSet
-pset <- downloadPSet("NCI60_2021")
+# Load the bundled mini PharmacoSet dataset
+data("nci60_mini")
 
 # View available drugs
-head(drugNames(pset))
+head(PharmacoGx::drugNames(nci60_mini))
 
 # Correlate gene expression with drug response
 results <- correlateExpressionAUC(
-  pset = pset,
-  drug = "5-Fluorouracil",
+  pset = nci60_mini,
+  drug = "Erlotinib",
   mDataType = "rna",
   sensitivity.measure = "aac_recomputed",
   method = "pearson"
@@ -69,12 +66,16 @@ results <- correlateExpressionAUC(
 # View top correlated genes
 head(results[order(abs(results$cor), decreasing = TRUE), ])
 
-# Filter for significant genes
-sig_genes <- results[results$adj_pval < 0.05, ]
-}
+# Filter for significant genes (safe even if adj_pval has NAs)
+sig_genes <- subset(results, !is.na(adj_pval) && adj_pval < 0.05)
 
 }
 \references{
+Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+SummarizedExperiment: A container (S4 class) for matrix-like assays.
+R package version 1.36.0.
+\href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+
 Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
 Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
 Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).

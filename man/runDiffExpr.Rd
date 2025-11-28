@@ -33,7 +33,7 @@ points. Default is "#0072B2".}
 }
 \value{
 A ggplot2 object displaying the gene expression distribution
-by response group.
+  by response group.
 }
 \description{
 Creates a boxplot or violin plot showing the distribution of a specific
@@ -46,12 +46,16 @@ biomarker candidates.
 library(PharmacoGx)
 
 # Load data
-pset <- downloadPSet("NCI60_2021")
-drug_name <- drugNames(pset)[1]
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
+data("nci60_mini")
+
+drug_name <- drugNames(nci60_mini)[1]
 
 # Define response groups
 groups <- defineResponseGroups(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed",
   method = "median"
@@ -64,7 +68,7 @@ diff_expr <- runDiffExpr(pset, groups, method = "t.test")
 top_gene <- diff_expr$gene[which.min(diff_expr$adj_pval)]
 
 p1 <- plotGeneBoxplot(
-  pset = pset,
+  pset = nci60_mini,
   gene = top_gene,
   groupLabels = groups,
   plotType = "boxplot"
@@ -73,7 +77,7 @@ print(p1)
 
 # Plot with violin plot
 p2 <- plotGeneBoxplot(
-  pset = pset,
+  pset = nci60_mini,
   gene = top_gene,
   groupLabels = groups,
   plotType = "violin",
@@ -84,6 +88,18 @@ print(p2)
 
 }
 \references{
+Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+SummarizedExperiment: A container (S4 class) for matrix-like assays.
+R package version 1.36.0.
+\href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+
+Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+\emph{Bioinformatics}, 32(8), 1244-1246.
+\href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+
 Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
 Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
 }

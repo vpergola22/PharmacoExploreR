@@ -18,7 +18,7 @@ threshold for significance. Default is 0.05.}
 }
 \value{
 A ggplot2 object displaying the volcano plot with threshold lines
-and colored points indicating significant genes.
+  and colored points indicating significant genes.
 }
 \description{
 Generates a volcano plot displaying the correlation strength (x-axis)
@@ -31,11 +31,15 @@ that meet both correlation and significance thresholds.
 library(PharmacoGx)
 
 # Load data and compute correlations
-pset <- downloadPSet("NCI60_2021")
-drug_name <- drugNames(pset)[1]
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
+data("nci60_mini")
+
+drug_name <- drugNames(nci60_mini)[1]
 
 results <- correlateExpressionAUC(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed"
 )

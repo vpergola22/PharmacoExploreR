@@ -27,17 +27,17 @@ Default is "rna" for gene expression.}
 \item{method}{A character string specifying the statistical method.
 Options are:
 \itemize{
-\item "t.test" - Welch's t-test for each gene (default)
-\item "limma" - Linear modeling with empirical Bayes (requires limma package)
+  \item "t.test" - Welch's t-test for each gene (default)
+  \item "limma" - Linear modeling with empirical Bayes (requires limma package)
 }}
 }
 \value{
 A data frame with the following columns:
 \itemize{
-\item gene - Character vector of gene names
-\item logFC - Numeric vector of log fold changes (sensitive - resistant)
-\item pval - Numeric vector of p-values
-\item adj_pval - Numeric vector of FDR-adjusted p-values
+  \item gene - Character vector of gene names
+  \item logFC - Numeric vector of log fold changes (sensitive - resistant)
+  \item pval - Numeric vector of p-values
+  \item adj_pval - Numeric vector of FDR-adjusted p-values
 }
 }
 \description{
@@ -51,12 +51,16 @@ for each gene.
 library(PharmacoGx)
 
 # Load data
-pset <- downloadPSet("NCI60_2021")
-drug_name <- drugNames(pset)[1]
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
+data("nci60_mini")
+
+drug_name <- drugNames(nci60_mini)[1]
 
 # Define response groups
 groups <- defineResponseGroups(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed",
   method = "median"
@@ -64,7 +68,7 @@ groups <- defineResponseGroups(
 
 # Run differential expression using t-test
 diff_expr <- runDiffExpr(
-  pset = pset,
+  pset = nci60_mini,
   groupLabels = groups,
   mDataType = "rna",
   method = "t.test"
@@ -78,7 +82,7 @@ sig_genes <- diff_expr[diff_expr$adj_pval < 0.05 & abs(diff_expr$logFC) > 1, ]
 
 # Using limma (if installed)
 diff_expr_limma <- runDiffExpr(
-  pset = pset,
+  pset = nci60_mini,
   groupLabels = groups,
   method = "limma"
 )
@@ -86,6 +90,22 @@ diff_expr_limma <- runDiffExpr(
 
 }
 \references{
+Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+SummarizedExperiment: A container (S4 class) for matrix-like assays.
+R package version 1.36.0.
+\href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+
+Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+\emph{Bioinformatics}, 32(8), 1244-1246.
+\href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+
+R Core Team (2024). R: A Language and Environment for Statistical Computing.
+R Foundation for Statistical Computing, Vienna, Austria.
+\href{https://www.R-project.org/}{Link}.
+
 Ritchie, M. E., Phipson, B., Wu, D., Hu, Y., Law, C. W., Shi, W., &
 Smyth, G. K. (2015). limma powers differential expression analyses for
 RNA-sequencing and microarray studies. \emph{Nucleic Acids Research},

@@ -13,7 +13,7 @@ to download. Must match an available PSet name from PharmacoGx. Use
 }
 \value{
 A PharmacoSet object containing molecular profiling data, drug
-sensitivity measurements, and associated metadata.
+  sensitivity measurements, and associated metadata.
 }
 \description{
 Downloads and loads a PharmacoSet object from the PharmacoGx repository.
@@ -29,9 +29,6 @@ pset <- loadPSet("NCI60_2021")
 # View available datasets first
 library(PharmacoGx)
 availablePSets()
-
-# Load GDSC dataset
-gdsc <- loadPSet("GDSC_2020(v2-8.2)")
 }
 
 }

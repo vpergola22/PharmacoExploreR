@@ -25,9 +25,9 @@ indicate greater sensitivity.}
 \item{method}{A character string specifying the classification method.
 Options are:
 \itemize{
-\item "median" - Split at median (50th percentile)
-\item "quantile" - Use top and bottom quantiles (default: 25th and 75th)
-\item "manual" - Use a user-specified threshold
+  \item "median" - Split at median (50th percentile)
+  \item "quantile" - Use top and bottom quantiles (default: 25th and 75th)
+  \item "manual" - Use a user-specified threshold
 }}
 
 \item{threshold}{A numeric value specifying the manual threshold (only used
@@ -40,8 +40,8 @@ Default is c(0.25, 0.75). Samples in the middle are classified as NA.}
 }
 \value{
 A named factor vector with levels "sensitive" and "resistant",
-where names correspond to sample identifiers. When method = "quantile",
-some samples may be NA (middle quantile).
+  where names correspond to sample identifiers. When method = "quantile",
+  some samples may be NA (middle quantile).
 }
 \description{
 Classifies samples (cell lines) into "sensitive" and "resistant" groups
@@ -53,12 +53,15 @@ are supported: median split, quantile-based, or manual threshold.
 library(PharmacoGx)
 
 # Load data
-pset <- downloadPSet("NCI60_2021")
-drug_name <- drugNames(pset)[1]
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
+data("nci60_mini")
+drug_name <- drugNames(nci60_mini)[1]
 
 # Method 1: Median split (most common)
 groups_median <- defineResponseGroups(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed",
   method = "median"
@@ -67,7 +70,7 @@ table(groups_median)
 
 # Method 2: Quantile-based (more stringent)
 groups_quantile <- defineResponseGroups(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed",
   method = "quantile",
@@ -77,7 +80,7 @@ table(groups_quantile, useNA = "ifany")
 
 # Method 3: Manual threshold
 groups_manual <- defineResponseGroups(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed",
   method = "manual",
@@ -88,6 +91,10 @@ table(groups_manual)
 
 }
 \references{
+R Core Team (2024). R: A Language and Environment for Statistical Computing.
+R Foundation for Statistical Computing, Vienna, Austria.
+\href{https://www.R-project.org/}{Link}.
+
 Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
 Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
 Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).

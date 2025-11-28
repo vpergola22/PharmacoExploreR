@@ -47,11 +47,15 @@ statistical significance.
 library(PharmacoGx)
 
 # Load data and compute correlations
-pset <- downloadPSet("NCI60_2021")
-drug_name <- drugNames(pset)[1]
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
+data("nci60_mini")
+
+drug_name <- drugNames(nci60_mini)[1]
 
 results <- correlateExpressionAUC(
-  pset = pset,
+  pset = nci60_mini,
   drug = drug_name,
   sensitivity.measure = "aac_recomputed"
 )
@@ -60,7 +64,7 @@ results <- correlateExpressionAUC(
 top_gene <- results$gene[which.max(abs(results$cor))]
 
 plot <- plotExprAUC(
-  pset = pset,
+  pset = nci60_mini,
   corResults = results,
   gene = top_gene,
   drug = drug_name,
@@ -72,6 +76,18 @@ print(plot)
 
 }
 \references{
+Morgan, M., Obenchain, V., Hester, J., Pagès, H. (2024).
+SummarizedExperiment: A container (S4 class) for matrix-like assays.
+R package version 1.36.0.
+\href{https://doi.org/10.18129/B9.bioc.SummarizedExperiment}{Link}.
+
+Smirnov, P., Safikhani, Z., El-Hachem, N., Wang, D., She, A., Olsen, C.,
+Freeman, M., Selby, H., Gendoo, D. M., Grossman, P., Beck, A. H.,
+Aerts, H. J., Lupien, M., Goldenberg, A., & Haibe-Kains, B. (2016).
+PharmacoGx: an R package for analysis of large pharmacogenomic datasets.
+\emph{Bioinformatics}, 32(8), 1244-1246.
+\href{https://doi.org/10.1093/bioinformatics/btv723}{Link}.
+
 Wickham, H. (2016). ggplot2: Elegant Graphics for Data Analysis.
 Springer-Verlag New York. \href{https://ggplot2.tidyverse.org}{Link}.
 }
