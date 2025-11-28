@@ -10,18 +10,18 @@ LazyData: true
 RoxygenNote: 7.3.3
 Depends: R (>= 4.0.0)
 Imports:
-PharmacoGx,
-SummarizedExperiment,
-ggplot2,
-reshape2,
-stats,
-utils,
-shiny,
-DT
+  PharmacoGx,
+  SummarizedExperiment,
+  ggplot2,
+  reshape2,
+  stats,
+  utils,
+  shiny,
+  DT
 Suggests:
-BiocManager,
-testthat (>= 3.0.0),
-knitr,
-rmarkdown,
-limma
+  BiocManager,
+  testthat (>= 3.0.0),
+  knitr,
+  rmarkdown,
+  limma
 VignetteBuilder: knitr
