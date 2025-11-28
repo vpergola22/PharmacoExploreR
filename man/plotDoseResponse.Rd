@@ -40,14 +40,14 @@ data("nci60_mini")
 # View available cell lines
 head(cellNames(nci60_mini))
 
-# Select 3 cell lines for comparison
-selected_lines <- cellNames(nci60_mini)[1:3]
+# Pick 3 valid cell lines from the available ones
+valid_lines <- rownames(nci60_mini@treatmentResponse$raw[, , "Viability"])
+selected_lines <- valid_lines[1:3]
 
 # Plot dose-response curves
 plot <- plotDoseResponse(
   pset = nci60_mini,
   cell.lines = selected_lines,
-  sensitivity.measure = "Viability"
 )
 print(plot)
 

@@ -48,7 +48,10 @@ coefficient, p-value, and FDR-adjusted p-value to identify genes whose
 expression is associated with drug response.
 }
 \examples{
-# Load the bundled mini PharmacoSet dataset
+# Load data
+# pset <- downloadPSet("NCI60_2021")
+
+# (for demo purposes we will use the mini dataset)
 data("nci60_mini")
 
 # View available drugs

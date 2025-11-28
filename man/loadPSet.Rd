@@ -22,12 +22,14 @@ data including molecular profiles (e.g., gene expression) and drug
 sensitivity measurements for cancer cell lines or patient samples.
 }
 \examples{
+\dontrun{
 # Load the NCI60 dataset
 pset <- loadPSet("NCI60_2021")
 
 # View available datasets first
 library(PharmacoGx)
 availablePSets()
+}
 
 }
 \references{

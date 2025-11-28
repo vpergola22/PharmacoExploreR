@@ -29,7 +29,10 @@
 #' }
 #'
 #' @examples
-#' # Load the bundled mini PharmacoSet dataset
+#' # Load data
+#' # pset <- downloadPSet("NCI60_2021")
+#' 
+#' # (for demo purposes we will use the mini dataset)
 #' data("nci60_mini")
 #'
 #' # View available drugs
