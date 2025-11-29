@@ -6,17 +6,12 @@
 #' for each gene.
 #'
 #' @param pset A PharmacoSet object from the PharmacoGx package.
-#' @param groupLabels A named factor vector with levels "sensitive" and
-#'   "resistant", typically output from \code{defineResponseGroups()}.
-#'   Names must correspond to sample identifiers in the PSet.
-#' @param mDataType A character string specifying the molecular data type.
-#'   Default is "rna" for gene expression.
-#' @param method A character string specifying the statistical method.
-#'   Options are:
-#'   \itemize{
-#'     \item "t.test" - Welch's t-test for each gene (default)
-#'     \item "limma" - Linear modeling with empirical Bayes (requires limma package)
-#'   }
+#' @param gene A character string specifying the gene name to plot.
+#' @param groupLabels A named factor vector with levels "sensitive" and "resistant".
+#' @param mDataType A character string specifying the molecular data type. Default is "rna".
+#' @param plotType A character string specifying the plot type. Options are "boxplot" or "violin".
+#' @param showPoints A logical indicating whether to overlay individual data points. Default is TRUE.
+#' @param pointColor A character string specifying the color for points. Default is "#0072B2".
 #'
 #' @return A data frame with the following columns:
 #' \itemize{

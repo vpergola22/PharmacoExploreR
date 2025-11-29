@@ -17,19 +17,17 @@ plotGeneBoxplot(
 \arguments{
 \item{pset}{A PharmacoSet object from the PharmacoGx package.}
 
-\item{groupLabels}{A named factor vector with levels "sensitive" and
-"resistant", typically output from \code{defineResponseGroups()}.
-Names must correspond to sample identifiers in the PSet.}
+\item{gene}{A character string specifying the gene name to plot.}
 
-\item{mDataType}{A character string specifying the molecular data type.
-Default is "rna" for gene expression.}
+\item{groupLabels}{A named factor vector with levels "sensitive" and "resistant".}
 
-\item{method}{A character string specifying the statistical method.
-Options are:
-\itemize{
-  \item "t.test" - Welch's t-test for each gene (default)
-  \item "limma" - Linear modeling with empirical Bayes (requires limma package)
-}}
+\item{mDataType}{A character string specifying the molecular data type. Default is "rna".}
+
+\item{plotType}{A character string specifying the plot type. Options are "boxplot" or "violin".}
+
+\item{showPoints}{A logical indicating whether to overlay individual data points. Default is TRUE.}
+
+\item{pointColor}{A character string specifying the color for points. Default is "#0072B2".}
 }
 \value{
 A data frame with the following columns:

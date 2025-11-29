@@ -80,7 +80,7 @@ allows for faster computation and is ideal for learning the package workflow.
 
 ```{r load mini}
 # Load the mini NCI60 dataset included with the tutorial
-pset <- readRDS(system.file("data", "nci60_mini.rds", package = "PharmacoExploreR"))
+pset <- readRDS(system.file("extdata", "nci60_mini.rds", package = "PharmacoExploreR"))
 ```
 
 ### Option 2: Downloading Full Datasets from PharmacoGx

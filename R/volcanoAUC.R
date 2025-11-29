@@ -71,9 +71,9 @@ volcanoAUC <- function(corResults, corThreshold = 0.3, pvalThreshold = 0.05) {
     geom_hline(yintercept = -log10(pvalThreshold), linetype = "dashed", color = "black") +
     theme_minimal(base_size = 13) +
     labs(
-      title = "Volcano Plot of Gene–AUC Correlations",
+      title = "Volcano Plot of Gene-AUC Correlations",
       x = "Correlation Coefficient (r)",
-      y = expression(-log[10](Adjusted~p~value)),
+      y = expression(-log[10]("Adjusted p-value")),
       color = "Significant"
     ) +
     theme(plot.title = element_text(face = "bold"))

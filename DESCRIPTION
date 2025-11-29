@@ -6,9 +6,10 @@ Authors@R: person("Victoria", "Pergola", email="victoria.pergola@mail.utoronto.c
 Description: Provides reproducible and user-friendly tools for exploratory pharmacogenomic data analysis with PharmacoGx. Simplifies workflows for exploring relationships between drug response data (AUC, IC50) and molecular features such as gene expression from PharmacoSet objects. Includes functions for correlation analysis, sample classification, and high-quality visualizations including volcano plots and dose-response curves.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 RoxygenNote: 7.3.3
 Depends: R (>= 4.0.0)
+biocViews:
 Imports:
   PharmacoGx,
   SummarizedExperiment,
@@ -17,9 +18,10 @@ Imports:
   stats,
   utils,
   shiny,
-  DT
+  rlang
 Suggests:
   BiocManager,
+  DT,
   testthat (>= 3.0.0),
   knitr,
   rmarkdown,

@@ -37,32 +37,16 @@ library(PharmacoGx)
 # (for demo purposes we will use the mini dataset)
 data("nci60_mini")
 
-# View available cell lines
-head(cellNames(nci60_mini))
-
-# Pick 3 valid cell lines from the available ones
+# Extract the cell lines that actually have dose-response data
 valid_lines <- rownames(nci60_mini@treatmentResponse$raw[, , "Viability"])
 selected_lines <- valid_lines[1:3]
 
 # Plot dose-response curves
 plot <- plotDoseResponse(
   pset = nci60_mini,
-  cell.lines = selected_lines,
+  cell.lines = selected_lines
 )
 print(plot)
-
-# Compare sensitive vs resistant cell lines
-drug_name <- drugNames(nci60_mini)[1]
-groups <- defineResponseGroups(nci60_mini, drug_name, method = "quantile")
-
-# Get 2 most sensitive and 2 most resistant
-sens_lines <- names(groups[groups == "sensitive"])[1:2]
-res_lines <- names(groups[groups == "resistant"])[1:2]
-
-plot_compare <- plotDoseResponse(
-  pset = nci60_mini,
-  cell.lines = c(sens_lines, res_lines)
-)
 
 }
 \references{

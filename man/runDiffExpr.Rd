@@ -14,22 +14,11 @@ runDiffExpr(
 \arguments{
 \item{pset}{A PharmacoSet object from the PharmacoGx package.}
 
-\item{groupLabels}{A named factor vector with levels "sensitive" and
-"resistant", typically output from \code{defineResponseGroups()}.}
+\item{groupLabels}{A named factor vector with levels "sensitive" and "resistant".}
 
-\item{mDataType}{A character string specifying the molecular data type.
-Default is "rna" for gene expression.}
+\item{mDataType}{A character string specifying the molecular data type. Default is "rna".}
 
-\item{gene}{A character string specifying the gene name to plot.}
-
-\item{plotType}{A character string specifying the plot type. Options are
-"boxplot" (default) or "violin".}
-
-\item{showPoints}{A logical indicating whether to overlay individual
-data points. Default is TRUE.}
-
-\item{pointColor}{A character string specifying the color for individual
-points. Default is "#0072B2".}
+\item{method}{A character string specifying the statistical method. Options are "t.test" or "limma".}
 }
 \value{
 A ggplot2 object displaying the gene expression distribution

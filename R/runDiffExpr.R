@@ -6,17 +6,9 @@
 #' biomarker candidates.
 #'
 #' @param pset A PharmacoSet object from the PharmacoGx package.
-#' @param gene A character string specifying the gene name to plot.
-#' @param groupLabels A named factor vector with levels "sensitive" and
-#'   "resistant", typically output from \code{defineResponseGroups()}.
-#' @param mDataType A character string specifying the molecular data type.
-#'   Default is "rna" for gene expression.
-#' @param plotType A character string specifying the plot type. Options are
-#'   "boxplot" (default) or "violin".
-#' @param showPoints A logical indicating whether to overlay individual
-#'   data points. Default is TRUE.
-#' @param pointColor A character string specifying the color for individual
-#'   points. Default is "#0072B2".
+#' @param groupLabels A named factor vector with levels "sensitive" and "resistant".
+#' @param mDataType A character string specifying the molecular data type. Default is "rna".
+#' @param method A character string specifying the statistical method. Options are "t.test" or "limma".
 #'
 #' @return A ggplot2 object displaying the gene expression distribution
 #'   by response group.
